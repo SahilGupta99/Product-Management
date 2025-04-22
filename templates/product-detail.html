@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - Product Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .main-image-container {
+            height: 400px;
+            /* Adjust as needed */
+            background-color: transparent;
+        }
+
+        .main-image,
+        .related-product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .related-product-container {
+            height: 300px;
+            /* Adjust as needed */
+            background-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .main-image-container {
+                height: 350px;
+            }
+
+            .thumbnail {
+                width: 70px;
+                height: 70px;
+            }
+        }
+
+        /* Related Products Styles */
+        .related-product {
+            transition: all 0.3s ease;
+        }
+
+        .related-product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+
+        /* Modal Styles */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .main-image-container {
+                height: 350px;
+            }
+
+            .related-product-container {
+                height: 250px;
+            }
+
+            .thumbnail {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="max-w-7xl mx-auto p-4 md:p-6">
+        <!-- Back Button -->
+        <a href="/category/{{ product.category_id }}"
+            class="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                    clip-rule="evenodd" />
+            </svg>
+            Back to {{ category.name }}
+        </a>
+
+        <!-- Product Main Section -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
+                <!-- Image Gallery -->
+                <div>
+                    <div class="main-image-container rounded-lg overflow-hidden" id="mainImageContainer">
+                        <img id="mainImage"
+                            src="{{ product.images[0] if product.images else '/static/default-product.jpg' }}"
+                            alt="{{ product.name }}" class="main-image w-full h-full object-cover rounded-lg">
+                    </div>
+
+                    {% if product.images and product.images|length > 1 %}
+                    <div class="mt-4 flex space-x-3 overflow-x-auto py-2 px-1">
+                        {% for img_url in product.images %}
+                        <img src="{{ img_url }}" alt="Thumbnail {{ loop.index }}"
+                            class="thumbnail rounded-lg border-2 {{ 'border-indigo-500' if loop.first else 'border-transparent hover:border-gray-300' }}"
+                            onclick="changeMainImage(this, '{{ img_url }}')" loading="lazy">
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <!-- Product Info -->
+                <div class="flex flex-col">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800">{{ product.name }}</h1>
+
+                    <div class="mt-4 flex items-center">
+                        <span class="text-3xl font-semibold text-indigo-600">₹{{ product.price }}</span>
+                    </div>
+
+                    <div class="mt-6 space-y-4">
+                        <a href="/inquire?product_id={{ product.id }}"
+                            class="inline-flex items-center justify-center w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300 text-lg">
+                            📩 Request Information
+                        </a>
+                    </div>
+
+                    <div class="mt-6 border-t pt-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-3">Description</h2>
+                        <div class="text-gray-700 leading-relaxed text-lg">
+                            {{ product.description }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Details Section -->
+            <div class="bg-gray-50 p-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Specifications</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for key, value in product.specs.items() %}
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                        <h3 class="font-bold text-lg text-gray-900 mb-2">{{ key }}</h3>
+                        <p class="text-gray-700 text-md">{{ value }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Related Products Section -->
+            <!-- Related Products Section -->
+            {% if related_products %}
+            <div class="p-8 border-t">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-8">You May Also Like</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
+                    {% for related in related_products %}
+                    <a href="/product/{{ related.id }}" class="related-product group block h-full">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-all h-full flex flex-col">
+                            <div
+                                class="related-product-container flex-grow flex items-center justify-center overflow-hidden rounded-lg">
+                                <img src="{{ related.images[0] if related.images else '/static/default-product.jpg' }}"
+                                    alt="{{ related.name }}"
+                                    class="related-product-image w-full h-full object-cover rounded-lg">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-gray-900">{{ related.name }}</h3>
+                                <p class="text-lg text-indigo-600 font-semibold mt-1">₹{{ related.price }}</p>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="imageModal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <img class="modal-image" id="modalImage">
+    </div>
+
+    <script>
+        // Change main image when thumbnail is clicked
+        function changeMainImage(element, imgUrl) {
+            const mainImg = document.getElementById('mainImage');
+            // Create new image to check dimensions
+            const testImg = new Image();
+            testImg.src = imgUrl;
+            testImg.onload = function () {
+                mainImg.src = imgUrl;
+                // Update active thumbnail border
+                document.querySelectorAll('.thumbnail').forEach(thumb => {
+                    thumb.classList.remove('border-indigo-500');
+                    thumb.classList.add('border-transparent', 'hover:border-gray-300');
+                });
+                element.classList.remove('border-transparent', 'hover:border-gray-300');
+                element.classList.add('border-indigo-500');
+            };
+        }
+
+        // Modal functions
+        let modalOpen = false;
+
+        function openModal() {
+            if (modalOpen) return;
+
+            modalOpen = true;
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const mainImg = document.getElementById('mainImage');
+
+            modalImg.src = mainImg.src;
+            modal.style.display = 'flex';
+
+            // Prevent scrolling when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalOpen = false;
+            document.getElementById('imageModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Set up click event for main image
+        document.getElementById('mainImageContainer').addEventListener('click', function (e) {
+            // Only open modal if the click is directly on the container or image
+            if (e.target === this || e.target === document.getElementById('mainImage')) {
+                openModal();
+            }
+        });
+
+        // Close modal when clicking outside image or on close button
+        document.getElementById('imageModal').addEventListener('click', function (e) {
+            if (e.target === this || e.target.classList.contains('close-modal')) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modalOpen) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Management Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-6">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8">Admin Management Panel</h1>
+
+        <!-- Tabs Navigation -->
+        <div class="flex border-b mb-6">
+            <button id="categoriesTab" class="tab-button active px-4 py-2 font-medium">Categories</button>
+            <button id="productsTab" class="tab-button px-4 py-2 font-medium">Products</button>
+        </div>
+
+        <!-- Categories Management Section -->
+        <div id="categoriesSection" class="tab-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Categories List -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-4">All Categories</h2>
+                    <div id="categoriesList" class="space-y-3">
+                        <!-- Categories will be loaded here via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Edit Category Form -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-4" id="categoryFormTitle">Edit Category</h2>
+                    <form id="editCategoryForm">
+                        <input type="hidden" id="editCategoryId">
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Name</label>
+                            <input type="text" id="editCategoryName" class="w-full p-2 border rounded" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Description</label>
+                            <textarea id="editCategoryDescription" class="w-full p-2 border rounded"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Image</label>
+                            <input type="file" id="editCategoryImage" class="w-full p-2 border rounded"
+                                accept="image/*">
+                            <div id="currentCategoryImage" class="mt-2"></div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save Changes</button>
+                            <button type="button" id="cancelEditCategory"
+                                class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Management Section -->
+        <div id="productsSection" class="tab-content hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Products List -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-4">All Products</h2>
+                    <div class="mb-4">
+                        <select id="productCategoryFilter" class="w-full p-2 border rounded">
+                            <option value="">All Categories</option>
+                            <!-- Categories will be loaded here via JavaScript -->
+                        </select>
+                    </div>
+                    <div id="productsList" class="space-y-3">
+                        <!-- Products will be loaded here via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Edit Product Form -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-4" id="productFormTitle">Edit Product</h2>
+                    <form id="editProductForm">
+                        <input type="hidden" id="editProductId">
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Category</label>
+                            <select id="editProductCategory" class="w-full p-2 border rounded" required>
+                                <!-- Categories will be loaded here via JavaScript -->
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Name</label>
+                            <input type="text" id="editProductName" class="w-full p-2 border rounded" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Description</label>
+                            <textarea id="editProductDescription" class="w-full p-2 border rounded"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Price</label>
+                            <input type="number" id="editProductPrice" class="w-full p-2 border rounded" step="0.01"
+                                required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Images</label>
+                            <input type="file" id="editProductImages" class="w-full p-2 border rounded" accept="image/*"
+                                multiple>
+                            <div id="currentProductImages" class="mt-2 grid grid-cols-3 gap-2"></div>
+                        </div>
+                        <!-- Replace the specs section in your product form with this: -->
+                        <div class="mb-4 border-t pt-4">
+                            <h3 class="text-lg font-semibold mb-3">Product Specifications</h3>
+                            <div id="productSpecs" class="space-y-3 mb-4">
+                                <!-- Existing specs will be loaded here -->
+                            </div>
+
+                            <div class="border rounded-lg p-4 bg-gray-50">
+                                <h4 class="font-medium mb-2">Add New Specification</h4>
+                                <div class="flex items-end gap-3">
+                                    <div class="flex-1">
+                                        <label class="block text-sm font-medium mb-1">Name</label>
+                                        <input type="text" id="newSpecKey" placeholder="e.g., Weight, Dimensions"
+                                            class="w-full p-2 border rounded">
+                                    </div>
+                                    <div class="flex-1">
+                                        <label class="block text-sm font-medium mb-1">Value</label>
+                                        <input type="text" id="newSpecValue" placeholder="e.g., 1.5kg, 10x20x30cm"
+                                            class="w-full p-2 border rounded">
+                                    </div>
+                                    <button type="button" onclick="addNewSpec()"
+                                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save Changes</button>
+                            <button type="button" id="cancelEditProduct"
+                                class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab Switching
+        document.getElementById('categoriesTab').addEventListener('click', () => {
+            document.getElementById('categoriesSection').classList.remove('hidden');
+            document.getElementById('productsSection').classList.add('hidden');
+            document.getElementById('categoriesTab').classList.add('active');
+            document.getElementById('productsTab').classList.remove('active');
+        });
+
+        document.getElementById('productsTab').addEventListener('click', () => {
+            document.getElementById('productsSection').classList.remove('hidden');
+            document.getElementById('categoriesSection').classList.add('hidden');
+            document.getElementById('productsTab').classList.add('active');
+            document.getElementById('categoriesTab').classList.remove('active');
+            loadProducts();
+        });
+
+        // Load all categories when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCategories();
+            loadCategoryOptions();
+        });
+
+        // Load categories for dropdowns
+        async function loadCategoryOptions() {
+            try {
+                const response = await fetch('/get_categories');
+                const categories = await response.json();
+
+                // For product category filter
+                const filterSelect = document.getElementById('productCategoryFilter');
+                filterSelect.innerHTML = '<option value="">All Categories</option>';
+
+                // For product edit form
+                const editSelect = document.getElementById('editProductCategory');
+                editSelect.innerHTML = '';
+
+                categories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category.id;
+                    option.textContent = category.name;
+                    filterSelect.appendChild(option.cloneNode(true));
+                    editSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        }
+
+        // Load all categories
+        async function loadCategories() {
+            try {
+                const response = await fetch('/get_categories');
+                const categories = await response.json();
+                const categoriesList = document.getElementById('categoriesList');
+                categoriesList.innerHTML = '';
+
+                categories.forEach(category => {
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.className = 'flex justify-between items-center p-3 border rounded';
+                    categoryDiv.innerHTML = `
+                        <div>
+                            <h3 class="font-medium">${category.name}</h3>
+                            <p class="text-sm text-gray-600">${category.description || 'No description'}</p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="editCategory('${category.id}')" class="text-blue-500 hover:text-blue-700">Edit</button>
+                            <button onclick="deleteCategory('${category.id}')" class="text-red-500 hover:text-red-700">Delete</button>
+                        </div>
+                    `;
+                    categoriesList.appendChild(categoryDiv);
+                });
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        }
+
+        // Edit category
+        async function editCategory(categoryId) {
+            try {
+                const response = await fetch(`/get_category/${categoryId}`);
+                const category = await response.json();
+
+                document.getElementById('editCategoryId').value = category.id;
+                document.getElementById('editCategoryName').value = category.name;
+                document.getElementById('editCategoryDescription').value = category.description || '';
+
+                const imageContainer = document.getElementById('currentCategoryImage');
+                if (category.image_url) {
+                    imageContainer.innerHTML = `
+                        <p class="text-sm mb-1">Current Image:</p>
+                        <img src="${category.image_url}" alt="${category.name}" class="h-20 object-cover rounded">
+                    `;
+                } else {
+                    imageContainer.innerHTML = '<p class="text-sm">No image uploaded</p>';
+                }
+
+                document.getElementById('categoryFormTitle').textContent = `Edit ${category.name}`;
+            } catch (error) {
+                console.error('Error loading category:', error);
+                alert('Failed to load category details');
+            }
+        }
+
+        // Save category changes
+        document.getElementById('editCategoryForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('id', document.getElementById('editCategoryId').value);
+            formData.append('name', document.getElementById('editCategoryName').value);
+            formData.append('description', document.getElementById('editCategoryDescription').value);
+
+            const imageFile = document.getElementById('editCategoryImage').files[0];
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
+            try {
+                const response = await fetch('/update_category', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (result.message) {
+                    alert(result.message);
+                    loadCategories();
+                    document.getElementById('editCategoryForm').reset();
+                    document.getElementById('currentCategoryImage').innerHTML = '';
+                    document.getElementById('categoryFormTitle').textContent = 'Edit Category';
+                }
+            } catch (error) {
+                console.error('Error updating category:', error);
+                alert('Failed to update category');
+            }
+        });
+
+        // Cancel edit
+        document.getElementById('cancelEditCategory').addEventListener('click', () => {
+            document.getElementById('editCategoryForm').reset();
+            document.getElementById('currentCategoryImage').innerHTML = '';
+            document.getElementById('categoryFormTitle').textContent = 'Edit Category';
+        });
+
+        // Delete category
+        async function deleteCategory(categoryId) {
+            if (!confirm('Are you sure you want to delete this category? All products in this category will also be deleted.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/delete_category/${categoryId}`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+                if (result.message) {
+                    alert(result.message);
+                    loadCategories();
+                    loadProducts();
+                    loadCategoryOptions();
+                }
+            } catch (error) {
+                console.error('Error deleting category:', error);
+                alert('Failed to delete category');
+            }
+        }
+
+        // =============================================
+        // COMPLETE PRODUCT MANAGEMENT SOLUTION
+        // =============================================
+
+        // =============================================
+        // PRODUCT SPECIFICATIONS MANAGEMENT - COMPLETE JS
+        // =============================================
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize the specs functionality when DOM is loaded
+            initSpecsManagement();
+        });
+
+        function initSpecsManagement() {
+            // Set up event listeners for the specs functionality
+            setupSpecsEventListeners();
+
+            // If we're editing a product, this will be called when the product data loads
+        }
+
+        function setupSpecsEventListeners() {
+            // Add spec button
+            document.getElementById('addSpecBtn')?.addEventListener('click', addNewSpec);
+
+            // Allow pressing Enter in key or value fields to add the spec
+            document.getElementById('newSpecKey')?.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    addNewSpec();
+                }
+            });
+
+            document.getElementById('newSpecValue')?.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    addNewSpec();
+                }
+            });
+        }
+
+        // Function to add a new specification field to the UI
+        function addSpecField(key = '', value = '', isNew = false) {
+            const specsContainer = document.getElementById('productSpecs');
+            if (!specsContainer) return;
+
+            const specId = 'spec-' + Date.now();
+            const specDiv = document.createElement('div');
+            specDiv.className = 'spec-item flex items-center gap-3 p-3 border rounded-lg bg-white shadow-sm mb-2';
+            specDiv.dataset.specId = specId;
+
+            specDiv.innerHTML = `
+        <input type="text" value="${escapeHtml(key)}" placeholder="Specification name"
+               class="spec-key flex-1 p-2 border rounded focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
+               required>
+        <input type="text" value="${escapeHtml(value)}" placeholder="Specification value"
+               class="spec-value flex-1 p-2 border rounded focus:ring-2 focus:ring-blue-300 focus:border-blue-500">
+        <button type="button" onclick="removeSpecField('${specId}')"
+                class="remove-spec-btn bg-red-500 hover:bg-red-600 text-white p-2 rounded-full w-8 h-8 flex items-center justify-center">
+            &times;
+        </button>
+    `;
+
+            specsContainer.appendChild(specDiv);
+
+            // If this is a new spec, scroll to it and focus on the value field
+            if (isNew) {
+                specDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                const valueInput = specDiv.querySelector('.spec-value');
+                if (valueInput) valueInput.focus();
+            }
+        }
+
+        // Function to add a new spec from the input fields
+        function addNewSpec() {
+            const keyInput = document.getElementById('newSpecKey');
+            const valueInput = document.getElementById('newSpecValue');
+
+            if (!keyInput || !valueInput) return;
+
+            const key = keyInput.value.trim();
+            const value = valueInput.value.trim();
+
+            if (!key) {
+                alert('Please enter a specification name');
+                keyInput.focus();
+                return;
+            }
+
+            addSpecField(key, value, true);
+
+            // Clear the input fields
+            keyInput.value = '';
+            valueInput.value = '';
+            keyInput.focus();
+        }
+
+        // Function to remove a spec field
+        function removeSpecField(specId) {
+            if (!confirm('Are you sure you want to remove this specification?')) {
+                return;
+            }
+
+            const specElement = document.querySelector(`[data-spec-id="${specId}"]`);
+            if (specElement) {
+                specElement.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+
+                // Wait for the fade-out animation before removing
+                setTimeout(() => {
+                    specElement.remove();
+                }, 300);
+            }
+        }
+
+        // Function to gather all specs into a JSON object
+        function gatherSpecs() {
+            const specs = {};
+            const specElements = document.querySelectorAll('.spec-item');
+
+            specElements.forEach(element => {
+                const keyInput = element.querySelector('.spec-key');
+                const valueInput = element.querySelector('.spec-value');
+
+                if (keyInput && valueInput) {
+                    const key = keyInput.value.trim();
+                    const value = valueInput.value.trim();
+
+                    if (key) {
+                        specs[key] = value;
+                    }
+                }
+            });
+
+            return specs;
+        }
+
+        // Function to load specs when editing a product
+        function loadProductSpecs(specsData) {
+            const specsContainer = document.getElementById('productSpecs');
+            if (!specsContainer) return;
+
+            // Clear existing specs
+            specsContainer.innerHTML = '';
+
+            // If no specs or empty, add one empty field
+            if (!specsData || Object.keys(specsData).length === 0) {
+                addSpecField('', '');
+                return;
+            }
+
+            // Add fields for each spec
+            Object.entries(specsData).forEach(([key, value]) => {
+                addSpecField(key, value);
+            });
+        }
+
+        // Helper function to escape HTML (for safety)
+        function escapeHtml(unsafe) {
+            if (!unsafe) return '';
+            return unsafe.toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // =============================================
+        // INTEGRATION WITH EXISTING PRODUCT FORM
+        // =============================================
+
+        // Update your existing editProduct function to call loadProductSpecs
+        async function editProduct(productId) {
+            try {
+                const response = await fetch(`/get_product/${productId}`);
+                if (!response.ok) throw new Error('Failed to fetch product');
+
+                const product = await response.json();
+
+                // Populate basic product info (your existing code)
+                document.getElementById('editProductId').value = product.id;
+                document.getElementById('editProductName').value = product.name || '';
+                document.getElementById('editProductDescription').value = product.description || '';
+                document.getElementById('editProductPrice').value = product.price || '';
+
+                // Set category (your existing code)
+                const categorySelect = document.getElementById('editProductCategory');
+                if (categorySelect) {
+                    for (let i = 0; i < categorySelect.options.length; i++) {
+                        if (categorySelect.options[i].value == product.category_id) {
+                            categorySelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+
+                // Handle images (your existing code)
+                const imagesContainer = document.getElementById('currentProductImages');
+                if (imagesContainer) {
+                    imagesContainer.innerHTML = '';
+                    if (product.images && product.images.length > 0) {
+                        product.images.forEach(image => {
+                            const imgDiv = document.createElement('div');
+                            imgDiv.className = 'relative';
+                            imgDiv.innerHTML = `
+                        <img src="${image}" class="h-20 w-full object-cover rounded">
+                        <button onclick="removeProductImage('${product.id}', '${image}')" 
+                                class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                            ×
+                        </button>
+                    `;
+                            imagesContainer.appendChild(imgDiv);
+                        });
+                    }
+                }
+
+                // Load the product specs
+                let specs = {};
+                if (product.specs) {
+                    try {
+                        specs = typeof product.specs === 'string' ? JSON.parse(product.specs) : product.specs;
+                    } catch (e) {
+                        console.error('Error parsing specs:', e);
+                    }
+                }
+                loadProductSpecs(specs);
+
+                // Update form title
+                document.getElementById('productFormTitle').textContent = `Edit ${product.name}`;
+
+            } catch (error) {
+                console.error('Error loading product:', error);
+                alert('Failed to load product details');
+            }
+        }
+
+        // Update your form submission handler to include specs
+        document.getElementById('editProductForm')?.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Validate form
+            const productName = document.getElementById('editProductName')?.value.trim();
+            if (!productName) {
+                alert('Please enter a product name');
+                return;
+            }
+
+            // Gather all form data
+            const formData = new FormData();
+            formData.append('id', document.getElementById('editProductId').value);
+            formData.append('category_id', document.getElementById('editProductCategory').value);
+            formData.append('name', productName);
+            formData.append('description', document.getElementById('editProductDescription').value);
+            formData.append('price', document.getElementById('editProductPrice').value);
+
+            // Add specs to form data
+            const specs = gatherSpecs();
+            formData.append('specs', JSON.stringify(specs));
+
+            // Handle image uploads
+            const imageFiles = document.getElementById('editProductImages').files;
+            for (let i = 0; i < imageFiles.length; i++) {
+                formData.append('images', imageFiles[i]);
+            }
+
+            // Submit the form
+            try {
+                const response = await fetch('/update_product', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                const result = await response.json();
+                if (result.message) {
+                    alert(result.message);
+
+                    // Reset the form
+                    document.getElementById('editProductForm').reset();
+                    document.getElementById('currentProductImages').innerHTML = '';
+                    document.getElementById('productSpecs').innerHTML = '';
+                    document.getElementById('productFormTitle').textContent = 'Edit Product';
+
+                    // Reload products list
+                    loadProducts();
+                }
+            } catch (error) {
+                console.error('Error updating product:', error);
+                alert('Failed to update product. Please check console for details.');
+            }
+        });
+
+        // =============================================
+        // HELPER FUNCTIONS FOR PRODUCT MANAGEMENT
+        // =============================================
+
+        // Your existing loadProducts function (updated to handle specs)
+        async function loadProducts() {
+            const categoryId = document.getElementById('productCategoryFilter')?.value;
+            let url = '/get_products';
+            if (categoryId) {
+                url += `?category_id=${categoryId}`;
+            }
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                const products = await response.json();
+                const productsList = document.getElementById('productsList');
+                if (!productsList) return;
+
+                productsList.innerHTML = '';
+
+                if (products.length === 0) {
+                    productsList.innerHTML = '<p class="text-gray-500 py-4">No products found</p>';
+                    return;
+                }
+
+                products.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'product-item flex justify-between items-center p-4 border rounded-lg bg-white shadow-sm mb-3';
+
+                    // Parse specs for display (show first 2 specs)
+                    let specsPreview = '';
+                    if (product.specs) {
+                        try {
+                            const specs = typeof product.specs === 'string' ? JSON.parse(product.specs) : product.specs;
+                            const firstTwoSpecs = Object.entries(specs).slice(0, 2);
+                            specsPreview = firstTwoSpecs.map(([key, value]) =>
+                                `<span class="text-xs bg-gray-100 px-2 py-1 rounded mr-1">${key}: ${value}</span>`
+                            ).join('');
+                        } catch (e) {
+                            console.error('Error parsing specs for display:', e);
+                        }
+                    }
+
+                    productDiv.innerHTML = `
+                <div class="flex items-center space-x-4 flex-1">
+                    ${product.images?.length > 0 ?
+                            `<img src="${product.images[0]}" class="h-16 w-16 object-cover rounded-lg border">` :
+                            '<div class="h-16 w-16 bg-gray-200 rounded-lg border"></div>'}
+                    <div>
+                        <h3 class="font-semibold">${product.name}</h3>
+                        <p class="text-sm text-gray-600">
+                            ${product.category_name || 'Uncategorized'} - 
+                            $${(product.price || 0).toFixed(2)}
+                        </p>
+                        <div class="specs-preview mt-1 flex flex-wrap gap-1">
+                            ${specsPreview}
+                            ${Object.keys(JSON.parse(product.specs || '{}')).length > 2 ?
+                            '<span class="text-xs text-gray-500">+ more</span>' : ''}
+                        </div>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button onclick="editProduct('${product.id}')" 
+                            class="edit-product-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
+                        Edit
+                    </button>
+                    <button onclick="deleteProduct('${product.id}')" 
+                            class="delete-product-btn bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                        Delete
+                    </button>
+                </div>
+            `;
+
+                    productsList.appendChild(productDiv);
+                });
+            } catch (error) {
+                console.error('Error loading products:', error);
+                const productsList = document.getElementById('productsList');
+                if (productsList) {
+                    productsList.innerHTML = `
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    Error loading products. Please try again.
+                </div>
+            `;
+                }
+            }
+        }
+
+        // Your existing deleteProduct function
+        async function deleteProduct(productId) {
+            if (!confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/delete_product/${productId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) throw new Error('Failed to delete product');
+
+                const result = await response.json();
+                if (result.message) {
+                    alert(result.message);
+                    loadProducts();
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                alert('Failed to delete product');
+            }
+        }
+
+        // Your existing removeProductImage function
+        async function removeProductImage(productId, imageUrl) {
+            if (!confirm('Are you sure you want to remove this image?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/remove_product_image/${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ image_url: imageUrl })
+                });
+
+                if (!response.ok) throw new Error('Failed to remove image');
+
+                const result = await response.json();
+                if (result.message) {
+                    alert(result.message);
+                    editProduct(productId); // Reload the product details
+                }
+            } catch (error) {
+                console.error('Error removing image:', error);
+                alert('Failed to remove image');
+            }
+        }
+    </script>
+</body>
+
+</html>
