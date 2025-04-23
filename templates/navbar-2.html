@@ -1,0 +1,73 @@
+<nav class="fixed top-0 left-0 w-full bg-black px-6 py-4 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <!-- Logo -->
+        <div class="text-red-100 text-3xl font-bold">
+            <a href="index.html">AMS Prefab</a>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-10">
+            <a href="{/index}"
+                class="text-white relative pb-1 transition duration-300 ease-in-out after:block after:h-[2px] after:bg-white after:w-0 after:transition-all after:duration-300 hover:after:w-full after:mx-auto">
+                Home
+            </a>
+            <a href="#products"
+                class="text-white relative pb-1 transition duration-300 ease-in-out after:block after:h-[2px] after:bg-white after:w-0 after:transition-all after:duration-300 hover:after:w-full after:mx-auto">
+                Our Products
+            </a>
+
+
+            <a href="/static/catalog.pdf" download="Catalog.pdf" target="_blank"
+                onclick="setTimeout(() => { window.open('/static/catalog.pdf', '_blank'); }, 500);"
+                class="text-white relative pb-1 transition duration-300 ease-in-out after:block after:h-[2px] after:bg-white after:w-0 after:transition-all after:duration-300 hover:after:w-full after:mx-auto">
+                Download Catalog
+            </a>
+
+        <a href="#About us"
+            class="text-white relative pb-1 transition duration-300 ease-in-out after:block after:h-[2px] after:bg-white after:w-0 after:transition-all after:duration-300 hover:after:w-full after:mx-auto">
+            About Us
+        </a>
+
+            <a href="#contactform"
+                class="text-white relative pb-1 transition duration-300 ease-in-out after:block after:h-[2px] after:bg-white after:w-0 after:transition-all after:duration-300 hover:after:w-full after:mx-auto">
+                Contact Us
+            </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="menuBtn" class="md:hidden text-white text-2xl p-2">
+            ☰
+        </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden flex flex-col bg-black p-4 mt-4">
+        <a href="{/index}"
+            class="text-white py-2 relative after:block after:h-[2px] after:bg-white after:w-0 after:transition-all after:duration-300 hover:after:w-full">
+            Home
+        </a>
+        <a href="#designs"
+            class="text-white py-2 relative after:block after:h-[2px] after:bg-white after:w-0 after:transition-all after:duration-300 hover:after:w-full">
+            Our Products
+        </a>
+        <a href="#features"
+            class="text-white py-2 relative after:block after:h-[2px] after:bg-white after:w-0 after:transition-all after:duration-300 hover:after:w-full">
+            Features
+        </a>
+        <a href="#review"
+            class="text-white py-2 relative after:block after:h-[2px] after:bg-white after:w-0 after:transition-all after:duration-300 hover:after:w-full">
+            User reviews
+        </a>
+
+        <a href="/static/catalog.pdf" download="Catalog.pdf" target="_blank"
+            onclick="setTimeout(() => { window.open('/static/catalog.pdf', '_blank'); }, 500);"
+            class="text-white py-2 relative after:block after:h-[2px] after:bg-white after:w-0 after:transition-all after:duration-300 hover:after:w-full">
+            Download Catalog
+        </a>
+
+        <a href="#contactform"
+            class="text-white py-2 relative after:block after:h-[2px] after:bg-white after:w-0 after:transition-all after:duration-300 hover:after:w-full">
+            Contact Us
+        </a>
+    </div>
+</nav>

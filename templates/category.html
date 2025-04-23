@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ category.name }} - Products</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
         .product-card {
             min-height: 100%;
@@ -92,20 +98,45 @@
             }
         }
     </style>
+
 </head>
 
-<body class="bg-gray-50 p-6">
+<body class="bg-gray-50 ">
+    {% include 'navbar-2.html' %}
+    <div class="h-20"></div>  <!-- Adjust height as per your navbar height -->
+    
+    <main>
+
     <!-- Search Bar with Dropdown -->
     <div class="max-w-4xl mx-auto mb-10 relative">
         <input type="text" id="searchInput" placeholder="Search products..."
-            class="w-full p-4 text-lg border-2 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            onfocus="showSearchDropdown()">
+            class="w-full p-4 text-lg border-2 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 pr-10"
+            oninput="toggleClearButton()" onfocus="showSearchDropdown()">
+        
+        <!-- ❌ Clear Icon -->
+        <button id="clearSearchBtn" onclick="clearSearch()" 
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 text-2xl text-gray-400 hover:text-red-500 hidden">
+
+            &times;
+        </button>
+    
         <div id="searchDropdown" class="search-dropdown">
             <!-- Search results will appear here -->
         </div>
     </div>
+    
 
     <div class="max-w-6xl mx-auto p-6">
+             <!-- Back Button -->
+     <a href="/"
+     class="inline-flex items-center px-3 py-2 bg-black text-white rounded-md shadow hover:bg-gray-800 transition duration-200 mb-4">
+     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+         <path fill-rule="evenodd"
+             d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+             clip-rule="evenodd" />
+     </svg>
+     Previous Page
+  </a>
         <!-- Display Category Name -->
         <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">{{ category.name }}</h2>
 
@@ -123,13 +154,36 @@
 
     <!-- Products Container -->
     <div id="productsContainer" class="max-w-6xl mx-auto space-y-10"></div>
-
+    </main>
+    {% include 'footer.html' %}
     <!-- Hidden JSON Data -->
     <script type="application/json" id="productData">
         {{ products | tojson | safe }}
     </script>
 
     <script>
+
+// #DEV: to clear the search bar and filter
+function toggleClearButton() {
+    const input = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearSearchBtn');
+    clearBtn.style.display = input.value ? 'block' : 'none';
+}
+
+function clearSearch() {
+    const input = document.getElementById('searchInput');
+    const dropdown = document.getElementById('searchDropdown');
+    
+    input.value = '';
+    document.getElementById('clearSearchBtn').style.display = 'none';
+    
+    // Optional: Clear filter or dropdown
+    dropdown.innerHTML = '';
+    
+    // If you're applying filter from this input, reset data here
+    // For example: reload all products or reset your displayed list
+    fetchAllProducts(); // Create this function as needed
+}
         const products = JSON.parse(document.getElementById("productData").textContent);
         const searchInput = document.getElementById("searchInput");
         const searchDropdown = document.getElementById("searchDropdown");
@@ -149,19 +203,28 @@
 
         // Function to update search dropdown
         function updateSearchDropdown(filter = "") {
-            searchDropdown.innerHTML = products
-                .filter(product =>
-                    product.name.toLowerCase().includes(filter.toLowerCase())
-                )
-                .map(product => `
-                    <div class="p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
-                         onclick="selectProduct('${product.id}', '${product.name.replace(/'/g, "\\'")}')">
-                        <div class="font-medium">${product.name}</div>
-                        <div class="text-sm text-gray-500 mt-1">${product.price ? `₹${parseFloat(product.price).toFixed(2)}` : ""}</div>
-                    </div>
-                `)
-                .join('');
-        }
+    const lowerFilter = filter.toLowerCase();
+    const matches = products.filter(product =>
+        product.id.toString().toLowerCase().includes(lowerFilter) ||
+        product.name.toLowerCase().includes(lowerFilter) ||
+        (product.description && product.description.toLowerCase().includes(lowerFilter)) ||
+        (product.price && product.price.toString().toLowerCase().includes(lowerFilter)) ||
+        Object.values(product.specs || {}).some(spec =>
+            spec && spec.toString().toLowerCase().includes(lowerFilter)
+        )
+    );
+
+    searchDropdown.innerHTML = matches
+        .map(product => `
+            <div class="p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                 onclick="selectProduct('${product.id}', '${product.name.replace(/'/g, "\\'")}')">
+                <div class="font-medium">${product.name}</div>
+                <div class="text-sm text-gray-500 mt-1">${product.price ? `₹${parseFloat(product.price).toFixed(2)}` : ""}</div>
+            </div>
+        `)
+        .join('');
+}
+
 
         // Function to select product from dropdown
         function selectProduct(productId, productName) {
@@ -184,33 +247,40 @@
         }
 
         // Function to create product sections dynamically
-        function createProductSections(filter = "") {
-            const container = document.getElementById("productsContainer");
-            container.innerHTML = "";
+    function createProductSections(filter = "") {
+    const container = document.getElementById("productsContainer");
+    container.innerHTML = "";
 
-            let filteredProducts = products;
+    let filteredProducts = products;
 
-            if (typeof filter === 'string' && filter.trim() !== "") {
-                // Text search
-                filteredProducts = products.filter(product =>
-                    product.name.toLowerCase().includes(filter.toLowerCase()) ||
-                    (product.description && product.description.toLowerCase().includes(filter.toLowerCase())))
-            } else if (typeof filter === 'string') {
-                // Show all products
-                filteredProducts = products;
-            } else {
-                // Filter by product ID
-                filteredProducts = products.filter(product => product.id === filter);
-            }
+    if (typeof filter === 'string' && filter.trim() !== "") {
+        const lowerFilter = filter.toLowerCase();
+        filteredProducts = products.filter(product => {
+            return (
+                product.id.toString().toLowerCase().includes(lowerFilter) ||
+                product.name.toLowerCase().includes(lowerFilter) ||
+                (product.description && product.description.toLowerCase().includes(lowerFilter)) ||
+                (product.price && product.price.toString().toLowerCase().includes(lowerFilter)) ||
+                Object.values(product.specs || {}).some(spec =>
+                    spec && spec.toString().toLowerCase().includes(lowerFilter)
+                )
+            );
+        });
+    } else {
+        filteredProducts = products;
+    }
 
-            if (filteredProducts.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-16">
-                        <p class="text-gray-500 text-xl">No products found matching "${filter}"</p>
-                    </div>
-                `;
-                return;
-            }
+    if (filteredProducts.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-16">
+                <p class="text-gray-500 text-xl">No products found matching "${filter}"</p>
+            </div>
+        `;
+        return;
+    }
+
+    // Render product cards (your existing rendering code goes here)
+
 
             filteredProducts.forEach((product, index) => {
                 const mainImage = (product.images && product.images.length > 0) ?
@@ -258,7 +328,7 @@
 
                                 <div class="mt-auto pt-6 action-buttons">
                                     <a href="/product/${product.id}" 
-                                       class="flex-1 text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium px-6 py-3 rounded-lg transition duration-300">
+                                       class="flex-1 text-center bg-orange-600 hover:bg-gray-800 text-white font-medium px-6 py-3 rounded-lg transition duration-300">
                                         👀 View Details
                                     </a>
                                     <a href="/inquire?product_id=${product.id}" 
@@ -307,6 +377,7 @@
         // Initialize page
         createProductSections();
     </script>
+     
 </body>
 
 </html>
