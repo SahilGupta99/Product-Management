@@ -103,28 +103,48 @@
 
 <body class="bg-gray-50 ">
     {% include 'navbar-2.html' %}
+    {% include 'socialmedia.html' %}
     <div class="h-20"></div>  <!-- Adjust height as per your navbar height -->
     
     <main>
 
     <!-- Search Bar with Dropdown -->
-    <div class="max-w-2xl mx-auto mb-10 relative">
-        <input type="text" id="searchInput" placeholder="Search products..."
-            class="w-full p-4 text-lg border-2 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 pr-10"
-            oninput="toggleClearButton()" onfocus="showSearchDropdown()">
-        
-        <!-- ❌ Clear Icon -->
-        <button id="clearSearchBtn" onclick="clearSearch()" 
-            class="absolute right-4 top-1/2 transform -translate-y-1/2 text-2xl text-gray-400 hover:text-red-500 hidden">
 
-            &times;
-        </button>
     
-        <div id="searchDropdown" class="search-dropdown">
-            <!-- Search results will appear here -->
+
+    <div class="max-w-2xl mx-auto mb-10 relative">
+        <div class="w-full flex justify-center px-4">
+          <div class="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl">
+            <!-- 🔍 Search Icon -->
+            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                  </svg>
+            </span>
+            <!-- 📝 Input Field -->
+            <input 
+              type="text" 
+              id="searchInput" 
+              placeholder="Search products..." 
+              class="w-full pl-10 pr-10 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" 
+              oninput="toggleClearButton()" 
+              onfocus="showSearchDropdown()" 
+            />
+            <!-- ❌ Clear Icon -->
+            <button 
+              id="clearSearchBtn" 
+              onclick="clearSearch()" 
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-2xl text-gray-400 hover:text-red-500 hidden">
+              &times;
+            </button>
+          </div>
         </div>
-    </div>
-    
+      
+        <div id="searchDropdown" class="search-dropdown">
+          <!-- Search results will appear here -->
+        </div>
+      </div>
+      
 
     <div class="max-w-6xl mx-auto p-6">
              <!-- Back Button -->
@@ -201,6 +221,17 @@ function clearSearch() {
             }, 200);
         }
 
+        document.addEventListener('click', function(event) {
+        const searchInput = document.getElementById('searchInput');
+        const dropdown = document.getElementById('searchDropdown');
+        const clearBtn = document.getElementById('clearSearchBtn');
+
+        if (!searchInput.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.style.display = 'none';
+        }
+        });
+
+
         // Function to update search dropdown
         function updateSearchDropdown(filter = "") {
     const lowerFilter = filter.toLowerCase();
@@ -229,6 +260,7 @@ function clearSearch() {
         // Function to select product from dropdown
         function selectProduct(productId, productName) {
             searchInput.value = productName;
+            toggleClearButton();
             createProductSections(productId);
             hideSearchDropdown();
             // Focus on the selected product

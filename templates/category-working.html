@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category.name }} - Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        .product-card {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-dropdown {
+            display: none;
+            position: absolute;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 10;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-image-container {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 350px;
+            /* Adjust height as needed */
+            background-color: transparent;
+            /* Remove gray background */
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* This will fill the container */
+            border-radius: 8px;
+            /* Add rounded corners to image */
+        }
+
+        .thumbnail-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+            /* Rounded corners for thumbnails */
+            flex-shrink: 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .action-buttons a {
+                width: 100%;
+            }
+
+            .main-image-container {
+                height: 300px;
+            }
+
+            .thumbnail-img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+
+</head>
+
+<body class="bg-gray-50 ">
+    {% include 'navbar-2.html' %}
+    <div class="h-20"></div>  <!-- Adjust height as per your navbar height -->
+    
+    <main>
+
+    <!-- Search Bar with Dropdown -->
+    <div class="max-w-2xl mx-auto mb-10 relative">
+        <input type="text" id="searchInput" placeholder="Search products..."
+            class="w-full p-4 text-lg border-2 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 pr-10"
+            oninput="toggleClearButton()" onfocus="showSearchDropdown()">
+        
+        <!-- ❌ Clear Icon -->
+        <button id="clearSearchBtn" onclick="clearSearch()" 
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 text-2xl text-gray-400 hover:text-red-500 hidden">
+
+            &times;
+        </button>
+    
+        <div id="searchDropdown" class="search-dropdown">
+            <!-- Search results will appear here -->
+        </div>
+    </div>
+    
+
+    <div class="max-w-6xl mx-auto p-6">
+             <!-- Back Button -->
+     <a href="/"
+     class="inline-flex items-center px-3 py-2 bg-black text-white rounded-md shadow hover:bg-gray-800 transition duration-200 mb-4">
+     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+         <path fill-rule="evenodd"
+             d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+             clip-rule="evenodd" />
+     </svg>
+     Previous Page
+  </a>
+        <!-- Display Category Name -->
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">{{ category.name }}</h2>
+
+        <!-- Display Category Description -->
+        <div class="text-gray-700 text-lg mb-10">
+            <div id="categoryDescription" class="line-clamp-3">
+                {{ category.description }}
+            </div>
+            {% if category.description|length > 200 %}
+            <button onclick="expandDescription()" class="text-indigo-600 font-semibold mt-3 hover:underline">Read
+                More</button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Products Container -->
+    <div id="productsContainer" class="max-w-6xl mx-auto space-y-10"></div>
+    </main>
+    {% include 'footer.html' %}
+    <!-- Hidden JSON Data -->
+    <script type="application/json" id="productData">
+        {{ products | tojson | safe }}
+    </script>
+
+    <script>
+
+// #DEV: to clear the search bar and filter
+function toggleClearButton() {
+    const input = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearSearchBtn');
+    clearBtn.style.display = input.value ? 'block' : 'none';
+}
+
+function clearSearch() {
+    const input = document.getElementById('searchInput');
+    const dropdown = document.getElementById('searchDropdown');
+    
+    input.value = '';
+    document.getElementById('clearSearchBtn').style.display = 'none';
+    
+    // Optional: Clear filter or dropdown
+    dropdown.innerHTML = '';
+    
+    // If you're applying filter from this input, reset data here
+    // For example: reload all products or reset your displayed list
+    fetchAllProducts(); // Create this function as needed
+}
+        const products = JSON.parse(document.getElementById("productData").textContent);
+        const searchInput = document.getElementById("searchInput");
+        const searchDropdown = document.getElementById("searchDropdown");
+
+        // Function to show search dropdown
+        function showSearchDropdown() {
+            searchDropdown.style.display = 'block';
+            updateSearchDropdown('');
+        }
+
+        // Function to hide search dropdown
+        function hideSearchDropdown() {
+            setTimeout(() => {
+                searchDropdown.style.display = 'none';
+            }, 200);
+        }
+
+        // Function to update search dropdown
+        function updateSearchDropdown(filter = "") {
+    const lowerFilter = filter.toLowerCase();
+    const matches = products.filter(product =>
+        product.id.toString().toLowerCase().includes(lowerFilter) ||
+        product.name.toLowerCase().includes(lowerFilter) ||
+        (product.description && product.description.toLowerCase().includes(lowerFilter)) ||
+        (product.price && product.price.toString().toLowerCase().includes(lowerFilter)) ||
+        Object.values(product.specs || {}).some(spec =>
+            spec && spec.toString().toLowerCase().includes(lowerFilter)
+        )
+    );
+
+    searchDropdown.innerHTML = matches
+        .map(product => `
+            <div class="p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                 onclick="selectProduct('${product.id}', '${product.name.replace(/'/g, "\\'")}')">
+                <div class="font-medium">${product.name}</div>
+                <div class="text-sm text-gray-500 mt-1">${product.price ? `₹${parseFloat(product.price).toFixed(2)}` : ""}</div>
+            </div>
+        `)
+        .join('');
+}
+
+
+        // Function to select product from dropdown
+        function selectProduct(productId, productName) {
+            searchInput.value = productName;
+            createProductSections(productId);
+            hideSearchDropdown();
+            // Focus on the selected product
+            const element = document.getElementById(`product-${productId}`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // Function to expand category description
+        function expandDescription() {
+            const desc = document.getElementById("categoryDescription");
+            desc.classList.toggle("line-clamp-3");
+            const button = desc.nextElementSibling;
+            button.textContent = desc.classList.contains("line-clamp-3") ? "Read More" : "Show Less";
+        }
+
+        // Function to create product sections dynamically
+    function createProductSections(filter = "") {
+    const container = document.getElementById("productsContainer");
+    container.innerHTML = "";
+
+    let filteredProducts = products;
+
+    if (typeof filter === 'string' && filter.trim() !== "") {
+        const lowerFilter = filter.toLowerCase();
+        filteredProducts = products.filter(product => {
+            return (
+                product.id.toString().toLowerCase().includes(lowerFilter) ||
+                product.name.toLowerCase().includes(lowerFilter) ||
+                (product.description && product.description.toLowerCase().includes(lowerFilter)) ||
+                (product.price && product.price.toString().toLowerCase().includes(lowerFilter)) ||
+                Object.values(product.specs || {}).some(spec =>
+                    spec && spec.toString().toLowerCase().includes(lowerFilter)
+                )
+            );
+        });
+    } else {
+        filteredProducts = products;
+    }
+
+    if (filteredProducts.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-16">
+                <p class="text-gray-500 text-xl">No products found matching "${filter}"</p>
+            </div>
+        `;
+        return;
+    }
+
+    // Render product cards (your existing rendering code goes here)
+
+
+            filteredProducts.forEach((product, index) => {
+                const mainImage = (product.images && product.images.length > 0) ?
+                    product.images[0] : "/static/default-product.jpg";
+                const price = product.price ? `₹${parseFloat(product.price).toFixed(2)}` : "N/A";
+                const specs = product.specs || {};
+
+                const productHTML = `
+                <div id="product-${product.id}" class="product-card bg-white shadow-md rounded-xl overflow-hidden">
+                    <div class="p-8">
+                        <h1 class="text-2xl font-bold text-gray-800 mb-6">${product.name}</h1>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Product Image Section -->
+                            <div class="flex flex-col">
+                            <div class="main-image-container">
+                                <img id="mainImage${index}" src="${mainImage}" alt="Main Product Image"
+                                    class="main-image">
+                            </div>
+
+                                <div class="thumbnails flex mt-6 space-x-3 overflow-x-auto py-2 px-1">
+                                    ${(product.images || []).map((img, imgIndex) => `
+                                        <img src="${img}" alt="Thumbnail ${imgIndex + 1}"
+                                            class="thumbnail-img rounded-lg cursor-pointer border-2 ${imgIndex === 0 ? 'border-indigo-500' : 'border-transparent'} hover:border-indigo-600"
+                                            onclick="changeMainImage(${index}, this)">
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Product Details -->
+                            <div class="product-details space-y-6">
+                                <p class="text-2xl font-bold text-indigo-600">${price}</p>
+
+                                ${Object.keys(specs).length > 0 ? `
+                                <div class="specs bg-gray-50 p-5 rounded-lg text-gray-600 space-y-3">
+                                    ${Object.entries(specs).map(([key, value]) => `
+                                        <p class="text-base"><strong class="text-gray-800">${key}:</strong> ${value}</p>
+                                    `).join('')}
+                                </div>
+                                ` : ''}
+
+                                <div class="description text-gray-700 text-base leading-relaxed line-clamp-4">
+                                    ${product.description || 'No description available'}
+                                </div>
+
+                                <div class="mt-auto pt-6 action-buttons">
+                                    <a href="/product/${product.id}" 
+                                       class="flex-1 text-center bg-orange-600 hover:bg-gray-800 text-white font-medium px-6 py-3 rounded-lg transition duration-300">
+                                        👀 View Details
+                                    </a>
+                                    <a href="/inquire?product_id=${product.id}" 
+                                       class="flex-1 text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-3 rounded-lg transition duration-300">
+                                        📩 I'm Interested
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                container.insertAdjacentHTML('beforeend', productHTML);
+            });
+        }
+
+        // Function to change main image on click
+        function changeMainImage(productIndex, element) {
+            document.getElementById(`mainImage${productIndex}`).src = element.src;
+            // Update thumbnail borders
+            element.parentElement.querySelectorAll('.thumbnail-img').forEach(img => {
+                img.classList.remove('border-indigo-500');
+                img.classList.add('border-transparent');
+            });
+            element.classList.remove('border-transparent');
+            element.classList.add('border-indigo-500');
+        }
+
+        // Event listeners
+        searchInput.addEventListener("input", function () {
+            const searchTerm = this.value;
+            if (searchTerm === "") {
+                createProductSections();
+            } else {
+                updateSearchDropdown(searchTerm);
+            }
+        });
+
+        searchInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                createProductSections(this.value);
+                hideSearchDropdown();
+            }
+        });
+
+        // Initialize page
+        createProductSections();
+    </script>
+     
+</body>
+
+</html>
