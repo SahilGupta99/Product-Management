@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Image Carousel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .carousel-slide {
+            transition: all 0.3s ease;
+        }
+
+        .carousel-slide:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+            z-index: 10;
+        }
+
+        .carousel-slide img {
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide:hover img {
+            transform: scale(1.05);
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white">
+
+    <section class="py-12 px-4 bg-black">
+        <!-- Heading inside the main section -->
+        <div class="w-full text-center py-8">
+            <h2 class="text-3xl md:text-4xl font-bold px-4 text-white">Our Recent Projects</h2>
+        </div>
+        <!-- Carousel Container -->
+        <div class="carousel-container">
+            <!-- Carousel Track -->
+            <div id="carouselTrack" class="carousel-track gap-6">
+                <!-- Slides -->
+                <div
+                    class="carousel-slide flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] rounded-xl overflow-hidden border-2 border-white/20">
+                    <img src="/static/images/double-storey/3.jpeg" alt="Project 1"
+                        class="w-full h-[50vh] md:h-[60vh] object-cover">
+                </div>
+                <div
+                    class="carousel-slide flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] rounded-xl overflow-hidden border-2 border-white/20">
+                    <img src="/static/images/double-storey/9.jpg" alt="Project 2"
+                        class="w-full h-[50vh] md:h-[60vh] object-cover">
+                </div>
+                <div
+                    class="carousel-slide flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] rounded-xl overflow-hidden border-2 border-white/20">
+                    <img src="/static/images/double-storey/22.jpg" alt="Project 3"
+                        class="w-full h-[50vh] md:h-[60vh] object-cover">
+                </div>
+                <div
+                    class="carousel-slide flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] rounded-xl overflow-hidden border-2 border-white/20">
+                    <img src="/static/images/A-frame/A-12.jpg" alt="Project 4"
+                        class="w-full h-[50vh] md:h-[60vh] object-cover">
+                </div>
+                <div
+                    class="carousel-slide flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] rounded-xl overflow-hidden border-2 border-white/20">
+                    <img src="/static/images/A-frame/A-5.jpg" alt="Project 4"
+                        class="w-full h-[50vh] md:h-[60vh] object-cover">
+                </div>
+                <div
+                    class="carousel-slide flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] rounded-xl overflow-hidden border-2 border-white/20">
+                    <img src="/static/images/A-frame/A-6.jpg" alt="Project 4"
+                        class="w-full h-[50vh] md:h-[60vh] object-cover">
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <button id="prevBtn"
+                class="absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full z-10 hover:bg-white/20 transform -translate-x-1/2">
+                &larr;
+            </button>
+            <button id="nextBtn"
+                class="absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full z-10 hover:bg-white/20 transform translate-x-1/2">
+                &rarr;
+            </button>
+        </div>
+    </section>
+
+    <script>
+        const track = document.getElementById('carouselTrack');
+        const slides = document.querySelectorAll('.carousel-slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentIndex = 0;
+        let autoSlideInterval;
+        const slideInterval = 5000; // 3 seconds
+
+        function updateCarousel() {
+            const slideWidth = slides[0].offsetWidth;
+            const gap = 24; // matches your gap-6 (6 * 4px = 24px)
+            track.style.transform = `translateX(-${currentIndex * (slideWidth + gap)}px)`;
+
+            // Hide/show buttons based on position
+            prevBtn.style.display = currentIndex === 0 ? 'none' : 'block';
+            nextBtn.style.display = currentIndex >= slides.length - 1 ? 'none' : 'block';
+        }
+
+        function nextSlide() {
+            if (currentIndex >= slides.length - 1) {
+                currentIndex = 0; // Reset to first slide
+            } else {
+                currentIndex++;
+            }
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            if (currentIndex <= 0) {
+                currentIndex = slides.length - 1; // Go to last slide
+            } else {
+                currentIndex--;
+            }
+            updateCarousel();
+        }
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(nextSlide, slideInterval);
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        // Initialize
+        updateCarousel();
+        startAutoSlide();
+
+        // Event listeners
+        nextBtn.addEventListener('click', () => {
+            stopAutoSlide();
+            nextSlide();
+            startAutoSlide();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            stopAutoSlide();
+            prevSlide();
+            startAutoSlide();
+        });
+
+        // Pause on hover
+        track.addEventListener('mouseenter', stopAutoSlide);
+        track.addEventListener('mouseleave', startAutoSlide);
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            updateCarousel();
+        });
+    </script>
+
+</body>
+
+</html>

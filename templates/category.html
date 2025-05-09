@@ -5,12 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ category.name }} - Products</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"crossorigin="anonymous"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="/static/style.css">
+
+    <script defer src="/static/script.js"></script>
+    <script src="/static/tailwind.js"></script>
+    <script src="/static/all.min.js" crossorigin="anonymous"></script>
+    <script src="/static/cdn.min.js" defer></script>
+    <script src="/static/jquery.min.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="/static/all.min.css">
+    <!-- Tailwind CSS CDN -->
+    <link href="/static/tailwind.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         .product-card {
@@ -104,76 +113,74 @@
 <body class="bg-gray-50 ">
     {% include 'navbar-2.html' %}
     {% include 'socialmedia.html' %}
-    <div class="h-20"></div>  <!-- Adjust height as per your navbar height -->
-    
+    <div class="h-20"></div> <!-- Adjust height as per your navbar height -->
+
     <main>
 
-    <!-- Search Bar with Dropdown -->
+        <!-- Search Bar with Dropdown -->
 
-    
 
-    <div class="max-w-2xl mx-auto mb-10 relative">
-        <div class="w-full flex justify-center px-4">
-          <div class="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl">
-            <!-- 🔍 Search Icon -->
-            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                  </svg>
-            </span>
-            <!-- 📝 Input Field -->
-            <input 
-              type="text" 
-              id="searchInput" 
-              placeholder="Search products..." 
-              class="w-full pl-10 pr-10 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" 
-              oninput="toggleClearButton()" 
-              onfocus="showSearchDropdown()" 
-            />
-            <!-- ❌ Clear Icon -->
-            <button 
-              id="clearSearchBtn" 
-              onclick="clearSearch()" 
-              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-2xl text-gray-400 hover:text-red-500 hidden">
-              &times;
-            </button>
-          </div>
-        </div>
-      
-        <div id="searchDropdown" class="search-dropdown">
-          <!-- Search results will appear here -->
-        </div>
-      </div>
-      
 
-    <div class="max-w-6xl mx-auto p-6">
-             <!-- Back Button -->
-     <a href="/"
-     class="inline-flex items-center px-3 py-2 bg-black text-white rounded-md shadow hover:bg-gray-800 transition duration-200 mb-4">
-     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-         <path fill-rule="evenodd"
-             d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-             clip-rule="evenodd" />
-     </svg>
-     Previous Page
-  </a>
-        <!-- Display Category Name -->
-        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">{{ category.name }}</h2>
-
-        <!-- Display Category Description -->
-        <div class="text-gray-700 text-lg mb-10">
-            <div id="categoryDescription" class="line-clamp-3">
-                {{ category.description }}
+        <div class="max-w-2xl mx-auto mb-10 relative">
+            <div class="w-full flex justify-center px-4">
+                <div class="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl">
+                    <!-- 🔍 Search Icon -->
+                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-search" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg>
+                    </span>
+                    <!-- 📝 Input Field -->
+                    <input type="text" id="searchInput" placeholder="Search products..."
+                        class="w-full pl-10 pr-10 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        oninput="toggleClearButton()" onfocus="showSearchDropdown()" />
+                    <!-- ❌ Clear Icon -->
+                    <button id="clearSearchBtn" onclick="clearSearch()"
+                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-2xl text-gray-400 hover:text-red-500 hidden">
+                        &times;
+                    </button>
+                </div>
             </div>
-            {% if category.description|length > 200 %}
-            <button onclick="expandDescription()" class="text-indigo-600 font-semibold mt-3 hover:underline">Read
-                More</button>
-            {% endif %}
-        </div>
-    </div>
 
-    <!-- Products Container -->
-    <div id="productsContainer" class="max-w-6xl mx-auto space-y-10"></div>
+            <div id="searchDropdown" class="search-dropdown">
+                <!-- Search results will appear here -->
+            </div>
+        </div>
+
+
+        <div class="max-w-6xl mx-auto p-6">
+            <!-- Back Button -->
+            <a href="/"
+                class="inline-flex items-center px-3 py-2 bg-black text-white rounded-md shadow hover:bg-gray-800 transition duration-200 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+                Previous Page
+            </a>
+            <!-- Display Category Name -->
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">{{ category.name }}</h2>
+
+            <!-- Display Category Description -->
+            <div class="text-gray-700 text-lg mb-10">
+                <div id="categoryDescription" class="line-clamp-3">
+                    {{ category.description }}
+                </div>
+                {% if category.description|length > 200 %}
+                <button onclick="expandDescription()" class="text-indigo-600 font-semibold mt-3 hover:underline">Read
+                    More</button>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Products Container -->
+        <div id="productsContainer" class="max-w-6xl mx-auto space-y-10"></div>
+                <!-- #DEV: contact section code -->
+                {% include 'contact.html' %}
+                {% include 'progress-indicator.html' %}
     </main>
     {% include 'footer.html' %}
     <!-- Hidden JSON Data -->
@@ -183,27 +190,27 @@
 
     <script>
 
-// #DEV: to clear the search bar and filter
-function toggleClearButton() {
-    const input = document.getElementById('searchInput');
-    const clearBtn = document.getElementById('clearSearchBtn');
-    clearBtn.style.display = input.value ? 'block' : 'none';
-}
+        // #DEV: to clear the search bar and filter
+        function toggleClearButton() {
+            const input = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            clearBtn.style.display = input.value ? 'block' : 'none';
+        }
 
-function clearSearch() {
-    const input = document.getElementById('searchInput');
-    const dropdown = document.getElementById('searchDropdown');
-    
-    input.value = '';
-    document.getElementById('clearSearchBtn').style.display = 'none';
-    
-    // Optional: Clear filter or dropdown
-    dropdown.innerHTML = '';
-    
-    // If you're applying filter from this input, reset data here
-    // For example: reload all products or reset your displayed list
-    fetchAllProducts(); // Create this function as needed
-}
+        function clearSearch() {
+            const input = document.getElementById('searchInput');
+            const dropdown = document.getElementById('searchDropdown');
+
+            input.value = '';
+            document.getElementById('clearSearchBtn').style.display = 'none';
+
+            // Optional: Clear filter or dropdown
+            dropdown.innerHTML = '';
+
+            // If you're applying filter from this input, reset data here
+            // For example: reload all products or reset your displayed list
+            fetchAllProducts(); // Create this function as needed
+        }
         const products = JSON.parse(document.getElementById("productData").textContent);
         const searchInput = document.getElementById("searchInput");
         const searchDropdown = document.getElementById("searchDropdown");
@@ -221,40 +228,40 @@ function clearSearch() {
             }, 200);
         }
 
-        document.addEventListener('click', function(event) {
-        const searchInput = document.getElementById('searchInput');
-        const dropdown = document.getElementById('searchDropdown');
-        const clearBtn = document.getElementById('clearSearchBtn');
+        document.addEventListener('click', function (event) {
+            const searchInput = document.getElementById('searchInput');
+            const dropdown = document.getElementById('searchDropdown');
+            const clearBtn = document.getElementById('clearSearchBtn');
 
-        if (!searchInput.contains(event.target) && !dropdown.contains(event.target)) {
-            dropdown.style.display = 'none';
-        }
+            if (!searchInput.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
         });
 
 
         // Function to update search dropdown
         function updateSearchDropdown(filter = "") {
-    const lowerFilter = filter.toLowerCase();
-    const matches = products.filter(product =>
-        product.id.toString().toLowerCase().includes(lowerFilter) ||
-        product.name.toLowerCase().includes(lowerFilter) ||
-        (product.description && product.description.toLowerCase().includes(lowerFilter)) ||
-        (product.price && product.price.toString().toLowerCase().includes(lowerFilter)) ||
-        Object.values(product.specs || {}).some(spec =>
-            spec && spec.toString().toLowerCase().includes(lowerFilter)
-        )
-    );
+            const lowerFilter = filter.toLowerCase();
+            const matches = products.filter(product =>
+                product.id.toString().toLowerCase().includes(lowerFilter) ||
+                product.name.toLowerCase().includes(lowerFilter) ||
+                (product.description && product.description.toLowerCase().includes(lowerFilter)) ||
+                (product.price && product.price.toString().toLowerCase().includes(lowerFilter)) ||
+                Object.values(product.specs || {}).some(spec =>
+                    spec && spec.toString().toLowerCase().includes(lowerFilter)
+                )
+            );
 
-    searchDropdown.innerHTML = matches
-        .map(product => `
+            searchDropdown.innerHTML = matches
+                .map(product => `
             <div class="p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
                  onclick="selectProduct('${product.id}', '${product.name.replace(/'/g, "\\'")}')">
                 <div class="font-medium">${product.name}</div>
                 <div class="text-sm text-gray-500 mt-1">${product.price ? `₹${parseFloat(product.price).toFixed(2)}` : ""}</div>
             </div>
         `)
-        .join('');
-}
+                .join('');
+        }
 
 
         // Function to select product from dropdown
@@ -279,39 +286,39 @@ function clearSearch() {
         }
 
         // Function to create product sections dynamically
-    function createProductSections(filter = "") {
-    const container = document.getElementById("productsContainer");
-    container.innerHTML = "";
+        function createProductSections(filter = "") {
+            const container = document.getElementById("productsContainer");
+            container.innerHTML = "";
 
-    let filteredProducts = products;
+            let filteredProducts = products;
 
-    if (typeof filter === 'string' && filter.trim() !== "") {
-        const lowerFilter = filter.toLowerCase();
-        filteredProducts = products.filter(product => {
-            return (
-                product.id.toString().toLowerCase().includes(lowerFilter) ||
-                product.name.toLowerCase().includes(lowerFilter) ||
-                (product.description && product.description.toLowerCase().includes(lowerFilter)) ||
-                (product.price && product.price.toString().toLowerCase().includes(lowerFilter)) ||
-                Object.values(product.specs || {}).some(spec =>
-                    spec && spec.toString().toLowerCase().includes(lowerFilter)
-                )
-            );
-        });
-    } else {
-        filteredProducts = products;
-    }
+            if (typeof filter === 'string' && filter.trim() !== "") {
+                const lowerFilter = filter.toLowerCase();
+                filteredProducts = products.filter(product => {
+                    return (
+                        product.id.toString().toLowerCase().includes(lowerFilter) ||
+                        product.name.toLowerCase().includes(lowerFilter) ||
+                        (product.description && product.description.toLowerCase().includes(lowerFilter)) ||
+                        (product.price && product.price.toString().toLowerCase().includes(lowerFilter)) ||
+                        Object.values(product.specs || {}).some(spec =>
+                            spec && spec.toString().toLowerCase().includes(lowerFilter)
+                        )
+                    );
+                });
+            } else {
+                filteredProducts = products;
+            }
 
-    if (filteredProducts.length === 0) {
-        container.innerHTML = `
+            if (filteredProducts.length === 0) {
+                container.innerHTML = `
             <div class="text-center py-16">
                 <p class="text-gray-500 text-xl">No products found matching "${filter}"</p>
             </div>
         `;
-        return;
-    }
+                return;
+            }
 
-    // Render product cards (your existing rendering code goes here)
+            // Render product cards (your existing rendering code goes here)
 
 
             filteredProducts.forEach((product, index) => {
@@ -409,7 +416,7 @@ function clearSearch() {
         // Initialize page
         createProductSections();
     </script>
-     
+
 </body>
 
 </html>

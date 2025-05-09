@@ -1,0 +1,154 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          const toast = document.getElementById("toast");
+          const toastMsg = document.getElementById("toast-message");
+          toastMsg.textContent = "{{ messages[0] }}";
+          toast.classList.remove("hidden");
+          
+          // Auto hide after 4 seconds
+          setTimeout(() => {
+            toast.classList.add("opacity-0");
+            setTimeout(() => toast.classList.add("hidden"), 300);
+          }, 4000);
+        {% endif %}
+      {% endwith %}
+    });
+  </script>
+  
+<!-- Toast Container -->
+<div id="toast"
+     class="hidden fixed top-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-3 rounded shadow-lg z-50 transition-opacity duration-300">
+  <span id="toast-message"></span>
+</div>
+
+ <!-- #DEV: contact section code -->
+ <section class="w-screen bg-black py-4 relative left-1/2 right-1/2 mx-[-50vw] ">
+    <div class="max-w-full mx-auto text-center">
+        <h3 class="text-4xl md:text-5xl  text-white px-4">Contact Us</h3>
+    </div>
+</section>
+<section id="contactform" class=" w-full relative bg-black text-white py-16 ">
+
+    <!-- Background Image -->
+    <img class="absolute inset-0 w-full h-full object-cover opacity-50" src="/static/image.jpg"
+        alt="Background Image">
+
+    <!-- Content Wrapper -->
+    <div class="relative max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12 items-start">
+        <!-- Left Side: Contact Information -->
+        <div class="w-full md:w-1/2 space-y-6">
+            <h3 class="text-lg font-semibold text-gray-300 uppercase">Have a question? Feel free to
+                contact us</h3>
+            <h1 class="text-4xl font-extrabold text-white">Get in touch with us</h1>
+
+            <h2 class="text-2xl font-bold text-white">Contact Information</h2>
+
+            <div class="space-y-6 text-gray-300">
+                <!-- Address -->
+                <div class="flex items-start space-x-4">
+                    <div
+                        class="w-12 h-12 flex items-center justify-center bg-orange-500 text-white rounded-full">
+                        <i class="fas fa-map-marker-alt text-xl"></i>
+                    </div>
+                    <p>RZG-126, Nihal Vihar, Nangloi, West Delhi-110041</p>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="flex items-center space-x-4">
+                    <div
+                        class="w-12 h-12 flex items-center justify-center bg-orange-500 text-white rounded-full">
+                        <i class="fas fa-phone-alt text-xl"></i>
+                    </div>
+                    <p><strong>Phone No:</strong> +91 9911630328</p>
+                    <p><strong>Mobile:</strong> +91 9717038470</p>
+                </div>
+
+                <!-- Email -->
+                <div class="flex items-center space-x-4">
+                    <div
+                        class="w-12 h-12 flex items-center justify-center bg-orange-500 text-white rounded-full">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </div>
+                    <p><strong>Email Address:</strong> amsenterprises40@gmail.com</p>
+                </div>
+            </div>
+            <!-- Social Media Icons -->
+            <div class="flex space-x-4">
+                <a href="https://www.facebook.com/share/1DZbQ38aSY/"
+                    class="w-12 h-12 flex items-center justify-center border border-gray-400 rounded-full transition duration-300 hover:bg-orange-500 hover:border-orange-500">
+                    <i class="fab fa-facebook-f text-lg text-gray-300 hover:text-white"></i>
+                </a>
+                <a href="#"
+                    class="w-12 h-12 flex items-center justify-center border border-gray-400 rounded-full transition duration-300 hover:bg-orange-500 hover:border-orange-500">
+                    <i class="fab fa-twitter text-lg text-gray-300 hover:text-white"></i>
+                </a>
+                <a href="#"
+                    class="w-12 h-12 flex items-center justify-center border border-gray-400 rounded-full transition duration-300 hover:bg-orange-500 hover:border-orange-500">
+                    <i class="fab fa-linkedin-in text-lg text-gray-300 hover:text-white"></i>
+                </a>
+            </div>
+        </div>
+
+<!-- Right Side: Contact Form -->
+<div class="w-full md:w-1/2 bg-gray-900 bg-opacity-90 p-6 md:p-8 rounded-lg">
+    <h2 class="text-2xl font-bold text-white mb-2">Get a Quote</h2>
+    <p class="text-gray-400 mb-6">We will get back to you within 24 hours.</p>
+    <section id="contact-form-section">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <strong class="font-bold">Success!</strong>
+            <span class="block sm:inline">{{ messages[0] }}</span>
+          </div>
+        {% endif %}
+      {% endwith %}
+    
+        <form class="space-y-4" method="POST" action="{{ url_for('contact_bp.contact') }}">
+
+        <input class="w-full p-3 bg-gray-800 text-white rounded-md" type="text" placeholder="Name" name="name" required>
+        <input class="w-full p-3 bg-gray-800 text-white rounded-md" type="email" placeholder="Email" name="email" required>
+        <input class="w-full p-3 bg-gray-800 text-white rounded-md" type="tel" placeholder="Phone Number" name="phone" required>
+        <input class="w-full p-3 bg-gray-800 text-white rounded-md" type="text" placeholder="City" name="city" required>
+        <input class="w-full p-3 bg-gray-800 text-white rounded-md" type="text" placeholder="State" name="state" required>
+    
+        <select class="w-full p-3 bg-gray-800 text-white rounded-md" name="requirement" required>
+            <option value="" disabled selected>Specify Your Requirement</option>
+            <option>Hotel Resort Project</option>
+            <option>Farm house Project</option>
+            <option>Personal Use Requirement</option>
+            <option>Franchise Opportunity</option>
+            <option>Others</option>
+        </select>
+    
+        <textarea class="w-full p-3 bg-gray-800 text-white rounded-md h-24" placeholder="Type message here" name="message" required></textarea>
+    
+        <button class="w-full p-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-md" type="submit">
+            Get Quote
+        </button>
+    
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert alert-success">
+                    {% for category, message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        </form>
+    </section>
+    
+</div>
+
+    </div>
+</section>
+
+<!-- #DEV: Map code -->
+<div class="w-screen-10 h-[450px] sm:h-[350px] md:h-[400px] lg:h-[450px]  overflow-hidden rounded">
+    <iframe class="w-full h-full "
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1750.3843875329437!2d77.07209134118872!3d28.66664129407314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d05d6b7d086d1%3A0x61ce304267234750!2sAMS%20Enterprises!5e0!3m2!1sen!2sin!4v1740846398664!5m2!1sen!2sin"
+        allowfullscreen="" loading="lazy"></iframe>
+</div>

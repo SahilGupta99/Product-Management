@@ -1,0 +1,467 @@
+/* Ensure footer stays at the bottom */
+html,
+body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    scroll-behavior: smooth;
+}
+
+body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    scroll-behavior: smooth;
+}
+
+main {
+    flex: 1;
+    /* Pushes the footer to the bottom */
+}
+
+/* #DEV: code for slider careousel */
+/* Reset margin and padding only for the carousel container and its children */
+header,
+.owl-carousel,
+.owl-carousel * {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Preserve spacing for the text content */
+.header-content {
+    padding: 1rem !important;
+    margin: 100px;
+}
+
+.header-content h2,
+.header-content h1,
+.header-content h4 {
+    margin: 0.5rem 0 !important;
+    /* Adjust as needed */
+}
+
+/* Custom CSS for clip-path */
+.clip-polygon {
+    clip-path: polygon(0 0, 60% 0, 36% 100%, 0 100%);
+}
+
+/* Move dots inside the carousel */
+.owl-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.owl-dots .owl-dot span {
+    background: rgba(255, 255, 255, 0.5) !important;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: block;
+}
+
+.owl-dots .owl-dot.active span {
+    background: #fff !important;
+}
+
+/* Animation for active slides */
+.owl-item.active h1,
+.owl-item.active h2 {
+    animation: fadeInDown 1s both 0.3s;
+}
+
+.owl-item.active h4 {
+    animation: fadeInUp 1s both 0.3s;
+}
+
+.owl-item.active .line {
+    animation: fadeInLeft 1s both 0.3s;
+}
+
+/* Navigation buttons */
+.owl-nav button {
+    position: absolute;
+    top: 43%;
+    opacity: 0;
+    transition: all 0.4s;
+    background: rgba(0, 0, 0, 0.5) !important;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.owl-prev {
+    left: 15px;
+}
+
+.owl-next {
+    right: 15px;
+}
+
+header:hover .owl-prev {
+    left: 0;
+    opacity: 1;
+}
+
+header:hover .owl-next {
+    right: 0;
+    opacity: 1;
+}
+
+/* #DEV: code for review stars.  */
+/* ==== Testimonial Styles ==== */
+
+/* ----------------------------------- */
+/* #DEV: project section image slider code */
+.carousel-slide {
+    transition: all 0.3s ease;
+}
+
+.carousel-slide:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+    z-index: 10;
+}
+
+.carousel-slide img {
+    transition: transform 0.5s ease;
+}
+
+.carousel-slide:hover img {
+    transform: scale(1.05);
+}
+
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+/* --------------------------------------------- */
+
+/* styles for scroll progress indicator */
+.progress-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s;
+}
+
+.progress-container.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Circular Progress Bar */
+.progress-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    /* Start from top */
+}
+
+.progress-circle-bg {
+    stroke: #ddd;
+    /* Light gray background */
+    stroke-width: 4;
+    fill: none;
+}
+
+.progress-circle {
+    stroke: black;
+    /* Black progress outline */
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 163.36;
+    /* Full circle length */
+    stroke-dashoffset: 163.36;
+    /* Start empty */
+    transition: stroke-dashoffset 0.1s linear;
+}
+
+/* Text Inside Circle */
+.progress-text {
+    position: absolute;
+    font-size: 14px;
+    /* Smaller text */
+    font-weight: 600;
+    color: black;
+}
+
+.arrow {
+    font-size: 18px;
+    /* Larger arrow */
+    font-weight: 900;
+    height: 20px;
+}
+
+/* #dev code for marquee text */
+@keyframes scrollText {
+    from {
+        transform: translateX(0%);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.marquee-wrapper {
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    width: 100%;
+    background: white;
+    padding: 20px 0;
+}
+
+.marquee {
+    display: flex;
+    min-width: 200%;
+    animation: scrollText 18s linear infinite;
+}
+
+.marquee span {
+    margin: 0 20px;
+}
+
+/* #DEV: review section styling */
+
+.testimonial-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    /* Padding inside the card */
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Space between elements */
+    width: 100%;
+    /* Full width of the container */
+    height: 400px;
+    /* Fixed height for all cards */
+    overflow-y: auto;
+    /* Add scrollbar if content overflows */
+    margin: 0 auto;
+    border: 1px solid #ddd;
+}
+
+
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Space between image and text */
+}
+
+.profile-img {
+    width: 70px;
+    /* Profile image size */
+    height: 70px;
+    /* Profile image size */
+    border-radius: 50%;
+}
+
+.profile-info strong {
+    font-size: 1.1em;
+    /* Name font size */
+}
+
+.profile-info p {
+    margin: 0;
+    font-size: 1em;
+    /* Role font size */
+    color: #555;
+}
+
+.stars {
+    color: #FFA500;
+    font-size: 1.5em;
+    /* Star size */
+}
+
+.separator {
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+}
+
+.review {
+    font-size: 1.1em;
+    /* Review text size */
+    color: #333;
+    line-height: 1.6;
+    flex-grow: 1;
+    /* Allow review text to take up remaining space */
+}
+
+/* Adjustments for small screens */
+@media (max-width: 768px) {
+    .testimonial-card {
+        height: 350px;
+        /* Slightly smaller height for mobile */
+        padding: 20px;
+        /* Smaller padding for mobile */
+    }
+
+    .profile-img {
+        width: 50px;
+        /* Smaller profile image for mobile */
+        height: 50px;
+        /* Smaller profile image for mobile */
+    }
+
+    .profile-info strong {
+        font-size: 1.2em;
+        /* Smaller font size for mobile */
+    }
+
+    .profile-info p {
+        font-size: 0.9em;
+        /* Smaller font size for mobile */
+    }
+
+    .stars {
+        font-size: 1.2em;
+        /* Smaller stars for mobile */
+    }
+
+    .review {
+        font-size: 0.95em;
+        /* Smaller review text for mobile */
+    }
+}
+
+/* Heading styles */
+.testimonial-section h4 {
+    color: #555;
+    /* Subdued color for the subheading */
+    font-size: 1.5em;
+    /* Medium font size */
+    font-weight: 600;
+    /* Semi-bold */
+    margin-bottom: 10px;
+    /* Space below the subheading */
+    text-transform: uppercase;
+    /* Uppercase text */
+    letter-spacing: 1px;
+    /* Slight letter spacing */
+}
+
+.testimonial-section h2 {
+    color: #333;
+    /* Dark color for the main heading */
+    font-size: 2.5em;
+    /* Large font size */
+    font-weight: 700;
+    /* Bold */
+    margin-bottom: 30px;
+    /* Space below the main heading */
+    line-height: 1.2;
+    /* Better line spacing */
+}
+
+/* Responsive adjustments for small screens */
+@media (max-width: 768px) {
+    .testimonial-section h4 {
+        font-size: 1.2em;
+        /* Smaller font size for mobile */
+    }
+
+    .testimonial-section h2 {
+        font-size: 2em;
+        /* Smaller font size for mobile */
+        margin-bottom: 20px;
+        /* Less space below the heading */
+    }
+}
+
+/* #DEV: code for about us section */
+.flex-center-mobile {
+    display: flex;
+    justify-content: center;
+}
+
+@media (min-width: 640px) {
+    .flex-center-mobile {
+        justify-content: space-around;
+    }
+}
+
+.checklist-container {
+    min-height: 300px;
+}
+
+/* Apply background image for small screens and up */
+@media (min-width: 640px) {
+    .checklist-container {
+        background-image: url('/static/images/about/home.jpg');
+        background-size: cover;
+        background-position: center;
+        border-radius: 0.5rem;
+        /* Equivalent to rounded-xl */
+        overflow: hidden;
+        /* Equivalent to overflow-hidden */
+    }
+}
+
+/* Remove background and adjust padding for extra-small screens */
+@media (max-width: 639px) {
+    .checklist-container {
+        background-image: none !important;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+/* Paragraph styling to match original */
+.original-paragraph {
+    font-family: 'Inter', sans-serif;
+    /* Revert to a clean sans-serif font */
+    font-size: 1rem;
+    /* Base font size */
+    line-height: 1.6;
+    /* More standard line height */
+    letter-spacing: 0.01em;
+    word-spacing: 0.05em;
+    /* More standard word spacing */
+    margin-bottom: 1em;
+    /* Standard paragraph spacing */
+    text-align: justify;
+    /* Removed max-width and centering to match wider lines */
+}
+
+@media (min-width: 768px) {
+
+    /* Medium screens and up */
+    .original-paragraph {
+        font-size: 1.05rem;
+        /* Slightly larger on larger screens */
+        line-height: 1.7;
+    }
+}

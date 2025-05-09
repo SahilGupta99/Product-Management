@@ -1,0 +1,27 @@
+Working On:
+2. make separate pages for all designs, and enable link attachment for that pages.  (almost done image remains to add)
+6. Create a AboutUs page dynamically insertion.
+
+Essential works: (Current Work)
+
+1. make navbar working with links for all screen sizes.
+2. Enable Request information with OTP and send the number to the admin panel, and add button download catalog.
+3. make the reviews working with real reviews and ratings.
+----------------------------------------------------------
+
+
+
+Not urgent works.
+1. Make the Admin panel for all admin stuff with secure login using otp for new devices and session management .
+2. Change route name for each pages should its own product name on the route url.
+3. product navbar link on hover mega menu should open. with dynamically inserted links of category and products.
+
+
+---------------------------------------------------------
+Final After Completion of All These Points Make the css and js files seperate.
+
+
+.............Work Done................
+1. contact form data sending work on admin panel, add option to download data in excel format.
+2. video modification, and video view should be added on the page.
+3. add contact details section on each page dynamically insertion.

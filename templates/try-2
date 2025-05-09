@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Home Becomes a Product – AMS Prefab</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  </style>
+</head>
+<body >
+<section class="bg-white text-gray-800 leading-relaxed">
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h2 class="text-3xl text-center mb-8 tracking-wide" style="font-family: 'Cinzel', serif;">
+        the home becomes a product
+      </h2>
+      
+
+    <p class="text-md mb-4">
+      Welcome to <strong>AMS Prefab</strong>, where we specialize in the design and manufacture of high-quality modular prefab homes and cottages. At AMS Prefab, we believe that everyone should have the opportunity to own a beautiful, well-crafted home, no matter where they live. That’s why we have developed a range of prefabricated homes and cottages that can be easily assembled on any foundation, making it possible to have the home of your dreams in even the most remote or challenging locations.
+    </p>
+
+    <p class="text-md mb-4">
+      Our modular prefab homes and cottages are built with the same care and attention to detail as traditional on-site construction, using only the highest-quality materials and techniques. Each home or cottage is custom designed to meet the specific needs and desires of our clients, with a wide range of customization options available.
+    </p>
+
+    <p class="text-md mb-4">
+      We are committed to sustainability at AMS Prefab, and take pride in the fact that our modular prefab homes and cottages are built in a controlled factory setting, resulting in less waste and a smaller environmental impact.
+    </p>
+
+    <p class="text-md mb-6">
+      Thank you for considering AMS Prefab for your prefabricated home or cottage needs. We look forward to working with you to create the home of your dreams. 
+      <span class="text-gray-500">#modularhomes #prefabhomes #customhomes #sustainableconstruction #dreamhome</span>
+    </p>
+
+    <!-- Enlarged Season Icons Section -->
+    <!-- <div class="flex justify-center gap-14 my-12"> -->
+      <div class="flex justify-center gap-14 my-10">
+        <img src="/static/images/about/sun.jpg" alt="Sun" class="w-17 h-17 object-contain">
+        <img src="/static/images/about/windy.jpg" alt="Wind" class="w-17 h-17 object-contain">
+        <img src="/static/images/about/rain.jpg" alt="Rain" class="w-17 h-17 object-contain">
+        <img src="/static/images/about/snow.jpg" alt="Snow" class="w-17 h-17 object-contain">
+      </div>
+    <!-- </div> -->
+
+    <p class="text-md mb-4">
+      All our cottages / homes are protected against any weather conditions. Our standard design can withstand heavy sun, winds up to 180 Kmph, heavy rainfall and snow load up to 2ft. The entire external surface of any structure is well protected by weather-proof membranes which makes it durable for years. With regular maintenance, the design life of our cottages / homes can be up to 50+ years.
+    </p>
+
+    <p class="text-md mb-6">
+      Please note, we are not manufacturers of low-cost homes and specialize in the luxury segment only. Our homes & cottages can be compared with good quality European wooden cottages which are even more expensive than us and have less durability than ours.
+    </p>
+
+    <!-- Checklist Section with enhanced background -->
+    <div class="relative bg-cover bg-center rounded-xl overflow-hidden my-10" style="background-image: url('/static/images/about/home.jpg'); min-height: 400px;">
+      <div class="bg-white bg-opacity-10 p-8 rounded-xl">
+        <ul class="text-base text-black space-y-4"> 
+            <li class="flex items-start"><span class="text-2xl mr-2">✅</span> Delivered complete – ready to use</li>
+            <li class="flex items-start"><span class="text-2xl mr-2">✅</span> Ultimate in zero maintenance construction</li>
+            <li class="flex items-start"><span class="text-2xl mr-2">✅</span> 50+ year economic lifespan</li>
+            <li class="flex items-start"><span class="text-2xl mr-2">✅</span> Stylish, contemporary & innovative design</li>
+            <li class="flex items-start"><span class="text-2xl mr-2">✅</span> Outstanding insulation for year-round thermal comfort</li>
+            <li class="flex items-start"><span class="text-2xl mr-2">✅</span> Sustainable & environmentally friendly build</li>
+            <li class="flex items-start"><span class="text-2xl mr-2">✅</span> 20 year warranty (Structure & Leakage due to rains)</li>
+            <li class="flex items-start"><span class="text-2xl mr-2">✅</span> Moveable / transportable structures</li>
+            <li class="flex items-start"><span class="text-2xl mr-2">✅</span> Can be legally classed as ‘temporary’ (depending on the model)</li>
+            <li class="flex items-start"><span class="text-2xl mr-2">✅</span> Fully recyclable at the end of its lifetime</li>
+          </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

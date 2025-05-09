@@ -1,123 +1,291 @@
+<style>
+    /* Social media sidebar - hidden on mobile by default */
+    .sticky-social {
+        display: none;
+        z-index: 40;
+        position: fixed;
+        top: 30%;
+        left: 0;
+        width: 220px;
+        flex-direction: column;
+    }
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap');
-        
-        .sticky-icon {
-            z-index: 1;
-            position: fixed;
-            top: 30%;
-            left: 0;
-            width: 220px;
+    /* Show only on medium screens and up */
+    @media (min-width: 768px) {
+        .sticky-social {
             display: flex;
-            flex-direction: column;
-        }  
-        
-        .sticky-icon a {
-            transform: translate(-170px, 0px);
-            border-radius: 0 50px 50px 0;
-            text-align: right;
-            margin: 2px;
-            text-decoration: none;
-            text-transform: uppercase;
-            padding: 10px;
-            font-size: 20px;
-            font-family: 'Oswald', sans-serif;
-            transition: all 0.8s;
+        }
+    }
+
+    .sticky-social a {
+        transform: translate(-170px, 0);
+        border-radius: 0 50px 50px 0;
+        text-align: right;
+        margin: 2px;
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 10px;
+        font-size: 20px;
+        font-family: 'Oswald', sans-serif;
+        transition: all 0.8s;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .sticky-social a:hover {
+        color: #FFF;
+        transform: translate(0, 0);
+    }
+
+    .sticky-social a:hover .icon-wrapper {
+        transform: rotate(360deg);
+    }
+
+    .Facebook {
+        background-color: #1877F2;
+        color: #FFF;
+    }
+
+    .Youtube {
+        background-color: #FF0000;
+        color: #FFF;
+    }
+
+    .Twitter {
+        background-color: #000000;
+        color: #FFF;
+    }
+
+    .Instagram {
+        background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45, #FFDC80);
+        color: #FFF;
+    }
+
+    .Google {
+        background-color: #409e0a;
+        color: #FFF;
+    }
+
+    .icon-wrapper {
+        background-color: #FFF;
+        height: 36px;
+        width: 36px;
+        border-radius: 50%;
+        margin-left: 15px;
+        transition: all 0.5s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sticky-social a i {
+        font-size: 18px;
+    }
+
+    .sticky-social a .fa-facebook-f {
+        color: #1877F2;
+    }
+
+    .sticky-social a .fa-google {
+        color: #4285F4;
+    }
+
+    .sticky-social a .fa-instagram {
+        color: #E1306C;
+    }
+
+    .sticky-social a .fa-youtube {
+        color: #FF0000;
+    }
+
+    .x-icon {
+        width: 18px;
+        height: 18px;
+        fill: #000000;
+    }
+
+    /* Mobile bottom bar styles */
+    .mobile-social-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        padding: 12px 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 50;
+    }
+
+    @media (min-width: 768px) {
+        .mobile-social-bar {
+            display: none;
+        }
+    }
+
+    .mobile-social-bar a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+    }
+
+    .mobile-social-bar i {
+        font-size: 1.5rem;
+        margin-bottom: 4px;
+    }
+
+    .mobile-social-bar span {
+        font-size: 0.75rem;
+    }
+
+    /* Social media sidebar - hidden by default */
+    .sticky-social {
+        display: none;
+        z-index: 40;
+        position: fixed;
+        top: 30%;
+        left: 0;
+        width: 220px;
+        flex-direction: column;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    /* Show only on medium screens and up after scroll */
+    @media (min-width: 768px) {
+        .sticky-social.visible {
             display: flex;
-            justify-content: flex-end;
-            align-items: center;
+            opacity: 1;
         }
-        
-        .sticky-icon a:hover {
-            color: #FFF;
-            transform: translate(0px, 0px);
-        }	
-        
-        .sticky-icon a:hover .icon-wrapper {
-            transform: rotate(360deg);
+    }
+
+    .sticky-social a {
+        transform: translate(-170px, 0);
+        border-radius: 0 50px 50px 0;
+        text-align: right;
+        margin: 2px;
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 10px;
+        font-size: 20px;
+        font-family: 'Oswald', sans-serif;
+        transition: all 0.8s;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .sticky-social a:hover {
+        color: #FFF;
+        transform: translate(0, 0);
+    }
+
+    .sticky-social a:hover .icon-wrapper {
+        transform: rotate(360deg);
+    }
+
+    /* ... (keep all your existing color and icon styles) ... */
+
+    /* Mobile bottom bar styles (unchanged) */
+    .mobile-social-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        padding: 12px 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 50;
+    }
+
+    @media (min-width: 768px) {
+        .mobile-social-bar {
+            display: none;
         }
-        
-        /* Facebook */
-        .Facebook {
-            background-color: #1877F2;
-            color: #FFF;
+    }
+</style>
+<script>
+    // #DEV: code for show the socialSidebar lately
+    document.addEventListener('DOMContentLoaded', function () {
+        const socialSidebar = document.getElementById('socialSidebar');
+        const scrollTrigger = 300; // Adjust this value to change when sidebar appears
+
+        function checkScroll() {
+            if (window.innerWidth >= 768) { // Only for desktop
+                if (window.pageYOffset > scrollTrigger) {
+                    socialSidebar.classList.add('visible');
+                } else {
+                    socialSidebar.classList.remove('visible');
+                }
+            }
         }
-        
-        /* YouTube */
-        .Youtube {
-            background-color: #FF0000;
-            color: #FFF;
-        }
-        
-        /* X (Twitter) */
-        .Twitter {
-            background-color: #000000;
-            color: #FFF;
-        }
-        
-        /* Instagram */
-        .Instagram {
-            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45, #FFDC80);
-            color: #FFF;
-        }
-        
-        /* Google */
-        .Google {
-            background-color: #409e0a;
-            color: #FFF;
-        }
-        
-        .icon-wrapper {
-            background-color: #FFF;
-            height: 36px;
-            width: 36px;
-            border-radius: 50%;
-            margin-left: 15px;
-            transition: all 0.5s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .sticky-icon a i {
-            font-size: 18px;
-        }
-        
-        .sticky-icon a .fa-facebook-f {
-            color: #1877F2;
-        }
-        
-        .sticky-icon a .fa-google {
-            color: #4285F4;
-        }
-        
-        .sticky-icon a .fa-instagram {
-            color: #E1306C;
-        }
-        
-        .sticky-icon a .fa-youtube {
-            color: #FF0000;
-        }
-        
-        .x-icon {
-            width: 18px;
-            height: 18px;
-            fill: #000000;
-        }
-    </style>
-</head>
-<body>
-    <!-- Sticky Social Icons -->
-    <div class="sticky-icon">
-       <a href="https://www.instagram.com/" class="Instagram">Instagram <div class="icon-wrapper"><i class="fab fa-instagram"></i></div></a>
-       <a href="https://www.facebook.com/" class="Facebook">Facebook <div class="icon-wrapper"><i class="fab fa-facebook-f"></i></div></a>
-       <a href="https://www.google.com/" class="Google">Google <div class="icon-wrapper"><i class="fab fa-google"></i></div></a>
-       <a href="https://www.youtube.com/" class="Youtube">YouTube <div class="icon-wrapper"><i class="fab fa-youtube"></i></div></a>
-       <a href="https://twitter.com/" class="Twitter">Twitter-X <div class="icon-wrapper">
-           <svg class="x-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-               <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
-           </svg>
-       </div></a>   
-    </div>
-</body>
+
+        // Check on initial load
+        checkScroll();
+
+        // Check on scroll
+        window.addEventListener('scroll', checkScroll);
+
+        // Check on resize
+        window.addEventListener('resize', checkScroll);
+    });</script>
+
+<!-- Sticky Sidebar (Visible only on desktop) -->
+<div class="sticky-social" id="socialSidebar">
+    <a href="https://www.instagram.com/amsenterprises_?igsh=aHFsamZmMmViNTdi" target="_blank" class="Instagram">
+        Instagram
+        <div class="icon-wrapper"><i class="fab fa-instagram"></i></div>
+    </a>
+    <a href="https://www.facebook.com/share/1DZbQ38aSY/"  target="_blank" class="Facebook">
+        Facebook
+        <div class="icon-wrapper"><i class="fab fa-facebook-f"></i></div>
+    </a>
+    <a href="https://g.co/kgs/CPcLi3c"  target="_blank" class="Google">
+        Google
+        <div class="icon-wrapper"><i class="fab fa-google"></i></div>
+    </a>
+    <a href="https://www.youtube.com/@amsenterprise9"  target="_blank" class="Youtube">
+        YouTube
+        <div class="icon-wrapper"><i class="fab fa-youtube"></i></div>
+    </a>
+    <a href="https://twitter.com/"  target="_blank" class="Twitter">
+        Twitter-X
+        <div class="icon-wrapper">
+            <svg class="x-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                    d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z" />
+            </svg>
+        </div>
+    </a>
+</div>
+
+<!-- Mobile Bottom Bar (Visible only on mobile) -->
+<div class="mobile-social-bar">
+    <a href="https://api.whatsapp.com/send?phone=919911630328&forceIntent=true&load=loadInIOSExternalSafari"  target="_blank">
+        <i class="fab fa-whatsapp" style="color: #25D366;"></i>
+        <span style="color: #25D366;">WhatsApp</span>
+    </a>
+    <a href="+91 9911630328"  target="_blank">
+        <i class="fas fa-phone" style="color: #007BFF;"></i>
+        <span style="color: #007BFF;">Phone</span>
+    </a>
+    <a href="amsenterprises40@gmail.com"  target="_blank">
+        <i class="fas fa-envelope" style="color: #D44638;"></i>
+        <span style="color: #D44638;">Email</span>
+    </a>
+    <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1750.3843875329437!2d77.07209134118872!3d28.66664129407314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d05d6b7d086d1%3A0x61ce304267234750!2sAMS%20Enterprises!5e0!3m2!1sen!2sin!4v1740846398664!5m2!1sen!2sin"  target="_blank">
+        <i class="fas fa-map-marker-alt" style="color: #FF0000;"></i>
+        <span style="color: #FF0000;">Address</span>
+    </a>
+    <a href="#"  target="_blank">
+        <i class="fas fa-comments" style="color: #FFC107;"></i>
+        <span style="color: #FFC107;">Chat</span>
+    </a>
+</div>

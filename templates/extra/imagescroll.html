@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Premium Image Carousel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        .shadow-glow {
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+        }
+
+        .fixed-heading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .fixed-heading-container h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans overflow-x-hidden bg-black text-white">
+    <div class="fixed-heading-container">
+        <h2 class="text-4xl md:text-5xl font-bold">Our Recent Projects</h2>
+    </div>
+
+    <section id="carouselSection" class="bg-black min-h-[300vh] relative pt-32">
+        <div class="container mx-auto h-full flex items-start px-5">
+            <div class="flex-grow h-[600px] relative overflow-hidden">
+                <div id="carouselTrack"
+                    class="absolute top-0 h-full flex gap-8 will-change-transform items-center px-2 lg:px-0 ml-12">
+                    <!-- Images -->
+                    <div
+                        class="carousel-slide w-[90vw] max-w-[600px] h-[80vw] md:h-[60vw] max-h-[450px] flex-shrink-0 relative overflow-hidden rounded-2xl border-4 border-white shadow-2xl transition-all duration-300 hover:shadow-glow hover:border-opacity-90">
+                        <img src="/static/images/double-storey/3.jpeg" alt="Luxury A-Frame"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <div
+                        class="carousel-slide w-[90vw] max-w-[600px] h-[80vw] md:h-[60vw] max-h-[450px] flex-shrink-0 relative overflow-hidden rounded-2xl border-4 border-white shadow-2xl transition-all duration-300 hover:shadow-glow hover:border-opacity-90">
+                        <img src="/static/images/double-storey/9.jpg" alt="Modern Villa"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <div
+                        class="carousel-slide w-[90vw] max-w-[600px] h-[80vw] md:h-[60vw] max-h-[450px] flex-shrink-0 relative overflow-hidden rounded-2xl border-4 border-white shadow-2xl transition-all duration-300 hover:shadow-glow hover:border-opacity-90">
+                        <img src="/static/images/double-storey/22.jpg" alt="Estate Design"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <div
+                        class="carousel-slide w-[90vw] max-w-[600px] h-[80vw] md:h-[60vw] max-h-[450px] flex-shrink-0 relative overflow-hidden rounded-2xl border-4 border-white shadow-2xl transition-all duration-300 hover:shadow-glow hover:border-opacity-90">
+                        <img src="/static/images/A-frame/A-12.jpg" alt="Estate Design"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <div
+                        class="carousel-slide w-[90vw] max-w-[600px] h-[80vw] md:h-[60vw] max-h-[450px] flex-shrink-0 relative overflow-hidden rounded-2xl border-4 border-white shadow-2xl transition-all duration-300 hover:shadow-glow hover:border-opacity-90">
+                        <img src="/static/images/A-frame/A-5.jpg" alt="Estate Design"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <div
+                        class="carousel-slide w-[90vw] max-w-[600px] h-[80vw] md:h-[60vw] max-h-[450px] flex-shrink-0 relative overflow-hidden rounded-2xl border-4 border-white shadow-2xl transition-all duration-300 hover:shadow-glow hover:border-opacity-90">
+                        <img src="/static/images/A-frame/A-6.jpg" alt="Estate Design"
+                            class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const carouselTrack = document.getElementById('carouselTrack');
+            const carouselSection = document.getElementById('carouselSection');
+            const slides = gsap.utils.toArray('.carousel-slide');
+
+            function setupScrollTrigger() {
+                gsap.killTweensOf(carouselTrack);
+                ScrollTrigger.killAll();
+
+                const slideWidth = slides[0]?.offsetWidth || 0;
+                const gap = 32; // gap between slides (Tailwind: gap-8)
+                const totalWidth = slides.reduce((acc, slide, index) => {
+                    const style = window.getComputedStyle(slide);
+                    const marginRight = parseFloat(style.marginRight || 0);
+                    return acc + slide.offsetWidth + marginRight;
+                }, 0);
+
+                // More generous scroll buffer to guarantee full view of last image
+                const scrollBuffer = window.innerWidth * 0.8;
+                const scrollDistance = totalWidth - window.innerWidth + scrollBuffer;
+
+                gsap.set(carouselTrack, {
+                    width: totalWidth,
+                    x: 0
+                });
+
+                gsap.to(carouselTrack, {
+                    x: -scrollDistance,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: carouselSection,
+                        start: "top top",
+                        end: () => `+=${window.innerHeight + scrollDistance}`,
+                        scrub: 1,
+                        pin: true,
+                        anticipatePin: 1,
+                        invalidateOnRefresh: true
+                    }
+                });
+
+                slides.forEach((slide) => {
+                    gsap.fromTo(slide, { scale: 0.9, opacity: 0.6 }, {
+                        scale: 1,
+                        opacity: 1,
+                        scrollTrigger: {
+                            trigger: slide,
+                            start: "left right",
+                            end: "center center",
+                            scrub: true
+                        }
+                    });
+                });
+            }
+
+            setupScrollTrigger();
+            window.addEventListener('resize', setupScrollTrigger);
+        });
+    </script>
+
+</body>
+
+</html>

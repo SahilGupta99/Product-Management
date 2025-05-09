@@ -105,6 +105,12 @@
                                 multiple>
                             <div id="currentProductImages" class="mt-2 grid grid-cols-3 gap-2"></div>
                         </div>
+                        <!-- Add this video section to your product form, after the images section -->
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Videos</label>
+                            <input type="file" id="editProductVideos" class="w-full p-2 border rounded" accept="video/*" multiple>
+                            <div id="currentProductVideos" class="mt-2 grid grid-cols-1 gap-2"></div>
+                        </div>
                         <!-- Replace the specs section in your product form with this: -->
                         <div class="mb-4 border-t pt-4">
                             <h3 class="text-lg font-semibold mb-3">Product Specifications</h3>
@@ -207,11 +213,11 @@
                     categoryDiv.innerHTML = `
                         <div>
                             <h3 class="font-medium">${category.name}</h3>
-                            <p class="text-sm text-gray-600">${category.description || 'No description'}</p>
+                            
                         </div>
                         <div class="flex space-x-2">
-                            <button onclick="editCategory('${category.id}')" class="text-blue-500 hover:text-blue-700">Edit</button>
-                            <button onclick="deleteCategory('${category.id}')" class="text-red-500 hover:text-red-700">Delete</button>
+                            <button onclick="editCategory('${category.id}')" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">Edit</button>
+                            <button onclick="deleteCategory('${category.id}')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Delete</button>
                         </div>
                     `;
                     categoriesList.appendChild(categoryDiv);
@@ -525,6 +531,29 @@
                         });
                     }
                 }
+                 
+                        // Handle videos (new code)
+                const videosContainer = document.getElementById('currentProductVideos');
+                if (videosContainer) {
+                    videosContainer.innerHTML = '';
+                    if (product.videos && product.videos.length > 0) {
+                        product.videos.forEach(video => {
+                            const videoDiv = document.createElement('div');
+                            videoDiv.className = 'relative border rounded p-2 bg-gray-50';
+                            videoDiv.innerHTML = `
+                                <video controls class="w-full h-auto max-h-40">
+                                    <source src="${video}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <button onclick="removeProductVideo('${product.id}', '${video}')" 
+                                        class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
+                                    ×
+                                </button>
+                            `;
+                            videosContainer.appendChild(videoDiv);
+                        });
+                    }
+                }
 
                 // Load the product specs
                 let specs = {};
@@ -545,6 +574,35 @@
                 alert('Failed to load product details');
             }
         }
+
+        // Add this new function to handle video removal
+        async function removeProductVideo(productId, videoUrl) {
+            if (!confirm('Are you sure you want to remove this video?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/remove_product_video/${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ video_url: videoUrl })
+                });
+
+                if (!response.ok) throw new Error('Failed to remove video');
+
+                const result = await response.json();
+                if (result.message) {
+                    alert(result.message);
+                    editProduct(productId); // Reload the product details
+                }
+            } catch (error) {
+                console.error('Error removing video:', error);
+                alert('Failed to remove video');
+            }
+        }
+
 
         // Update your form submission handler to include specs
         document.getElementById('editProductForm')?.addEventListener('submit', async function (e) {
@@ -574,6 +632,12 @@
             for (let i = 0; i < imageFiles.length; i++) {
                 formData.append('images', imageFiles[i]);
             }
+
+                // Handle video uploads (new code)
+            const videoFiles = document.getElementById('editProductVideos').files;
+            for (let i = 0; i < videoFiles.length; i++) {
+                formData.append('videos', videoFiles[i]);
+            }   
 
             // Submit the form
             try {

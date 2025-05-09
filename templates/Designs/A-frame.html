@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Image Grid</title>
+    <Script defer src ="{{ url_for('static', filename='designs.js') }}"></Script>
+    <script src="{{ url_for('static', filename='tailwind.js') }}"></script>
+    <script src="{{ url_for('static', filename='all.min.js') }}" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='cdn.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-white font-sans">
+    {% include 'socialmedia.html' %}
+
+    <!-- Navbar -->
+    {% include 'navbar-2.html' %}
+    <main>
+
+    <section id="skills-section" class="relative w-full h-[680px] bg-fixed bg-center bg-cover flex items-center">
+        <img src="{{ url_for('static', filename='images/A-frame/A-20.jpg') }}" alt="A-Frame Background" class="absolute inset-0 w-full h-full object-cover" />
+    
+        <div class="absolute inset-0 bg-black opacity-20"></div>
+    
+        <div class="relative z-10 container mx-auto px-6 md:px-12 lg:px-20 w-full flex justify-center items-center">
+            <div class="text-white text-center">
+                <h2 class="text-3xl md:text-6xl font-bold">"A" Frame </h2>
+                <p class="mt-4 text-gray-300">
+                    In the Beautiful Era of Ams Prefab designs
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <div class="max-w-4xl mx-auto px-6 py-12 text-gray-700 leading-relaxed">
+        <p class="text-lg">
+            Introducing the A Frame, a modern and innovative <span class="font-semibold">#prefabmodularhome</span> design from AMS Prefab’s Crafts. 
+            This design is available in 1, 2, 3 and 4 BHK options, making it perfect for <span class="font-semibold">#families</span> of all sizes. 
+            The A Frame is constructed using the latest <span class="font-semibold">#steelframingtechnology</span> and our patented 
+            <span class="font-semibold">#modularsystem</span>, ensuring that it is not only visually stunning but also built to last.
+        </p>
+    
+        <p class="mt-6 text-lg">
+            One of the key features of the A Frame design is its unique triangular shape, which is inspired by the traditional A-frame cabin. 
+            This striking architectural style creates a sense of spaciousness and openness in the living area, while also providing a visual focal point. 
+            The <span class="font-semibold">#AFrame</span> design is also energy efficient, allowing a lot of natural light to enter and the insulated 
+            structure makes it energy efficient.
+        </p>
+    
+        <p class="mt-6 text-lg">
+            The A Frame design features open-plan living spaces that are perfect for entertaining, allowing families to spend quality time together. 
+            The bedrooms are designed to provide maximum privacy and comfort. The design also takes into consideration an efficient use of space and 
+            maximizes the living area. The patented modular system used in the construction of the A Frame is highly efficient and allows for a faster 
+            and more seamless building process.
+        </p>
+    
+        <p class="mt-6 text-lg">
+            At AMS Prefab’s Crafts, we use sustainable and eco-friendly materials in the construction of the A Frame. The use of such materials not only reduces 
+            the environmental impact but also helps in making the home more energy efficient, reducing the costs of heating and cooling.
+        </p>
+    
+        <p class="mt-6 text-lg">
+            In conclusion, the A Frame is a modern and innovative <span class="font-semibold">#prefabmodularhome</span> design that is available in a variety 
+            of configurations to suit families of all sizes. Its unique triangular shape, open-plan living spaces, and energy-efficient features make it 
+            an excellent choice for anyone looking for a stylish, modern, and eco-friendly home. The patented <span class="font-semibold">#modularsystem</span> 
+            used in the construction of the A Frame ensures a fast and seamless building process, making it a perfect option for those looking to build 
+            their <span class="font-semibold">#dreamhome</span>.
+        </p>
+    </div>
+    
+    
+
+    <div class="container relative mx-auto max-w-8xl my-6">
+        {% set images = [
+            ['A-4.jpg', 'The Woods'],
+            ['A-5.jpg', 'Cinque Terre'],
+            ['A-6.jpg', 'Mountains and fjords'],
+            ['A-7.jpg', 'Northern Lights'],
+            ['A-20.jpg', 'Nature and sunrise'],
+            ['A-1.jpg', 'Snowy Mountains']
+        ] %}
+    
+        <!-- Slides -->
+        {% for image in images %}
+            <div class="mySlides {% if not loop.first %}hidden{% endif %}">
+                <div class="numbertext absolute top-0 left-0 text-white bg-black/50 px-3 py-1">
+                    {{ loop.index }} / {{ images | length }}
+                </div>
+                <img src="{{ url_for('static', filename='images/A-frame/' ~ image[0]) }}"
+                     class="w-[80%] h-[650px] mx-auto object-cover"
+                     alt="{{ image[1] }}">
+            </div>
+        {% endfor %}
+    
+        <!-- Navigation arrows -->
+        <a class="prev absolute top-1/2 left-0 transform -translate-y-1/2 text-white bg-black/50 px-4 py-2 cursor-pointer"
+           onclick="plusSlides(-1)">❮</a>
+        <a class="next absolute top-1/2 right-0 transform -translate-y-1/2 text-white bg-black/50 px-4 py-2 cursor-pointer"
+           onclick="plusSlides(1)">❯</a>
+    
+        <!-- Caption -->
+        <div class="caption-container text-center bg-black/50 text-white py-2">
+            <p id="caption"></p>
+        </div>
+    
+        <!-- Thumbnail Row -->
+        <div class="row flex mt-4">
+            {% for image in images %}
+                <div class="column w-1/6 p-1">
+                    <img class="demo cursor opacity-60 hover:opacity-100 w-full h-24 object-cover"
+                         src="{{ url_for('static', filename='images/A-frame/' ~ image[0]) }}"
+                         onclick="currentSlide({{ loop.index }})"
+                         alt="{{ image[1] }}">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <h1 class="text-center text-6xl font-bold my-4">A-Frame Gallery</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 p-4">
+        <div class="space-y-2">
+            <img src="{{ url_for('static', filename='images/A-frame/A-4.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-10.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-11.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-8.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-12.jpg') }}" class="w-full">
+        </div>
+        <div class="space-y-2">
+            <img src="{{ url_for('static', filename='images/A-frame/A-14.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-5.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-6.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-7.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-13.jpg') }}" class="w-full"> 
+            
+        </div>
+        <div class="space-y-2">         
+            <img src="{{ url_for('static', filename='images/A-frame/A-1.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-20.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-2.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-3.jpg') }}" class="w-full">        
+            <img src="{{ url_for('static', filename='images/A-frame/A-9.jpg') }}" class="w-full">         
+        </div>
+    </div>
+    {% include 'contact.html' %}
+    {% include 'progress-indicator.html' %}
+</main>
+        <!-- Footer -->
+        {% include 'footer.html' %}

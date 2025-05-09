@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Image Grid</title>
+    <Script defer src ="{{ url_for('static', filename='designs.js') }}"></Script>
+    <script src="{{ url_for('static', filename='tailwind.js') }}"></script>
+    <script src="{{ url_for('static', filename='all.min.js') }}" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='cdn.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-white font-sans">
+    {% include 'socialmedia.html' %}
+
+    <!-- Navbar -->
+    {% include 'navbar-2.html' %}
+    <main>
+
+    <section id="skills-section" class="relative w-full h-[680px] bg-fixed bg-center bg-cover flex items-center">
+        <img src="{{ url_for('static', filename='images/A-frame/A-20.jpg') }}" alt="A-Frame Background" class="absolute inset-0 w-full h-full object-cover" />
+    
+        <div class="absolute inset-0 bg-black opacity-20"></div>
+    
+        <div class="relative z-10 container mx-auto px-6 md:px-12 lg:px-20 w-full flex justify-center items-center">
+            <div class="text-white text-center">
+                <h2 class="text-3xl md:text-6xl font-bold">Modular Cottages </h2>
+                <p class="mt-4 text-gray-300">
+                    In the Beautiful Era of Ams Prefab designs
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <div class="max-w-4xl mx-auto px-6 py-12 text-gray-700 leading-relaxed">
+        <p class="text-lg">
+          Discover the charm of modern living with <span class="font-semibold">Modular Cottages</span> by <span class="font-semibold">AMS Prefab</span> — a perfect blend of cozy aesthetics and cutting-edge technology. 
+          Designed to deliver comfort, efficiency, and style, these cottages are ideal for holiday homes, farm retreats, resorts, or compact residential spaces.
+        </p>
+      
+        <p class="mt-6 text-lg">
+          Our modular cottages come in customizable 1, 2, and 3 BHK layouts and are crafted using AMS Prefab’s advanced <span class="font-semibold">steel framing system</span> and <span class="font-semibold">modular construction technology</span>. 
+          This ensures not just quick installation but also long-lasting durability, energy efficiency, and low maintenance.
+        </p>
+      
+        <p class="mt-6 text-lg">
+          The warm architectural style of these cottages evokes a sense of tranquility, making them perfect for nature-centric getaways or sustainable living. 
+          Thoughtfully designed interiors include open-plan kitchens, airy living spaces, and compact yet comfortable bedrooms — all optimized to make the most of every square foot.
+        </p>
+      
+        <p class="mt-6 text-lg">
+          Each cottage is built with <span class="font-semibold">eco-friendly, weather-resistant materials</span> that are suited for diverse climates. 
+          Optional wooden cladding, pitched roofs, and outdoor decks can enhance the natural aesthetic, giving each unit a cabin-like charm with modern comforts.
+        </p>
+      
+        <p class="mt-6 text-lg">
+          AMS Prefab modular cottages are pre-engineered for <span class="font-semibold">quick deployment</span>, making them ideal for remote locations, resorts, or rental cabins. 
+          From hillside escapes to lakeside lodges, these cottages offer a smart, elegant solution for serene living — with faster build times and a lower environmental impact.
+        </p>
+      
+        <p class="mt-6 text-lg">
+          Embrace a simpler, smarter way of building with <span class="font-semibold">AMS Prefab Modular Cottages</span> — where every space is designed to feel like home.
+        </p>
+      </div>
+      
+    
+
+    <div class="container relative mx-auto max-w-8xl my-6">
+        {% set images = [
+            ['A-4.jpg', 'The Woods'],
+            ['A-5.jpg', 'Cinque Terre'],
+            ['A-6.jpg', 'Mountains and fjords'],
+            ['A-7.jpg', 'Northern Lights'],
+            ['A-20.jpg', 'Nature and sunrise'],
+            ['A-1.jpg', 'Snowy Mountains']
+        ] %}
+    
+        <!-- Slides -->
+        {% for image in images %}
+            <div class="mySlides {% if not loop.first %}hidden{% endif %}">
+                <div class="numbertext absolute top-0 left-0 text-white bg-black/50 px-3 py-1">
+                    {{ loop.index }} / {{ images | length }}
+                </div>
+                <img src="{{ url_for('static', filename='images/A-frame/' ~ image[0]) }}"
+                     class="w-[80%] h-[650px] mx-auto object-cover"
+                     alt="{{ image[1] }}">
+            </div>
+        {% endfor %}
+    
+        <!-- Navigation arrows -->
+        <a class="prev absolute top-1/2 left-0 transform -translate-y-1/2 text-white bg-black/50 px-4 py-2 cursor-pointer"
+           onclick="plusSlides(-1)">❮</a>
+        <a class="next absolute top-1/2 right-0 transform -translate-y-1/2 text-white bg-black/50 px-4 py-2 cursor-pointer"
+           onclick="plusSlides(1)">❯</a>
+    
+        <!-- Caption -->
+        <div class="caption-container text-center bg-black/50 text-white py-2">
+            <p id="caption"></p>
+        </div>
+    
+        <!-- Thumbnail Row -->
+        <div class="row flex mt-4">
+            {% for image in images %}
+                <div class="column w-1/6 p-1">
+                    <img class="demo cursor opacity-60 hover:opacity-100 w-full h-24 object-cover"
+                         src="{{ url_for('static', filename='images/A-frame/' ~ image[0]) }}"
+                         onclick="currentSlide({{ loop.index }})"
+                         alt="{{ image[1] }}">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <h1 class="text-center text-6xl font-bold my-4">Modular Cottages Gallery</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 p-4">
+        <div class="space-y-2">
+            <img src="{{ url_for('static', filename='images/A-frame/A-4.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-10.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-11.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-8.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-12.jpg') }}" class="w-full">
+        </div>
+        <div class="space-y-2">
+            <img src="{{ url_for('static', filename='images/A-frame/A-14.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-5.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-6.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-7.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-13.jpg') }}" class="w-full"> 
+            
+        </div>
+        <div class="space-y-2">         
+            <img src="{{ url_for('static', filename='images/A-frame/A-1.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-20.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-2.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/A-frame/A-3.jpg') }}" class="w-full">        
+            <img src="{{ url_for('static', filename='images/A-frame/A-9.jpg') }}" class="w-full">         
+        </div>
+    </div>
+    {% include 'contact.html' %}
+    {% include 'progress-indicator.html' %}
+</main>
+        <!-- Footer -->
+        {% include 'footer.html' %}

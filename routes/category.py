@@ -100,11 +100,12 @@ def product_page(product_id):
         category=product.category
     )
 
+
 # Route for rendering homepage
-@category_bp.route("/")
+@category_bp.route("/products")
 def index():
     categories = Category.query.all()
-    return render_template("index.html", categories=categories)
+    return render_template("product.html", categories=categories)
 
 # Route for displaying category page with products
 @category_bp.route("/category/<int:category_id>")

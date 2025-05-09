@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Image Grid</title>
+    <Script defer src ="{{ url_for('static', filename='designs.js') }}"></Script>
+    <script src="{{ url_for('static', filename='tailwind.js') }}"></script>
+    <script src="{{ url_for('static', filename='all.min.js') }}" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='cdn.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-white font-sans">
+    {% include 'socialmedia.html' %}
+
+    <!-- Navbar -->
+    {% include 'navbar-2.html' %}
+    <main>
+
+    <section id="skills-section" class="relative w-full h-[680px] bg-fixed bg-center bg-cover flex items-center">
+        <img src="{{ url_for('static', filename='images/Wooden/17.jpg') }}" alt="A-Frame Background" class="absolute inset-0 w-full h-full object-cover" />
+    
+        <div class="absolute inset-0 bg-black opacity-20"></div>
+    
+        <div class="relative z-10 container mx-auto px-6 md:px-12 lg:px-20 w-full flex justify-center items-center">
+            <div class="text-white text-center">
+                <h2 class="text-3xl md:text-6xl font-bold">Wooden House</h2>
+                <p class="mt-4 text-gray-300">
+                    In the Beautiful Era of Ams Prefab designs
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <div class="max-w-4xl mx-auto px-6 py-12 text-gray-700 leading-relaxed">
+        <p class="text-lg">
+          Embrace the warmth and timeless beauty of nature with the <span class="font-semibold">Wooden House</span> from <span class="font-semibold">AMS Prefab</span>. Designed to create a cozy, inviting atmosphere, this home offers the perfect blend of rustic charm and modern design, bringing the best of both worlds into your living space.
+        </p>
+      
+        <p class="mt-6 text-lg">
+          The <span class="font-semibold">#WoodenHouse</span> by AMS Prefab is crafted from high-quality, sustainable wood, providing an eco-friendly and durable structure. The natural warmth of wood, combined with modern construction techniques, makes this home a perfect choice for those who appreciate the beauty of natural materials and sustainable living.
+        </p>
+      
+        <p class="mt-6 text-lg">
+          With a focus on functionality and design, the Wooden House features spacious open-plan living areas, designed to make the most of every square foot. Large windows allow natural light to flood the interiors, creating a bright and airy living space that is perfect for both relaxation and entertainment.
+        </p>
+      
+        <p class="mt-6 text-lg">
+          The home’s design combines modern aesthetics with the organic appeal of wood. Whether you’re looking for a peaceful retreat in the countryside or a stylish urban dwelling, this house offers a serene, yet sophisticated living environment. Each detail has been carefully thought out, from the high-quality wooden finishes to the practical and spacious layout.
+        </p>
+      
+        <p class="mt-6 text-lg">
+          Beyond its aesthetic appeal, the Wooden House is designed to be energy-efficient, with excellent insulation properties that help reduce heating and cooling costs. The natural materials used in construction create a healthy indoor environment, making it the perfect home for those who value both sustainability and comfort.
+        </p>
+      
+        <p class="mt-6 text-lg">
+          The <span class="font-semibold">#WoodenHouse</span> is an ideal choice for those who desire a connection with nature without sacrificing modern comforts. Built to last, this home’s enduring charm and functional design make it a perfect place to create lasting memories with your loved ones.
+        </p>
+      
+        <p class="mt-6 text-lg">
+          #AMS_Prefab #WoodenHouse #SustainableLiving #EcoFriendlyHomes #NaturalMaterials #EnergyEfficientHomes #RusticCharm #ModernDesign #SustainableLiving
+        </p>
+      </div>
+      
+    
+    
+
+    <div class="container relative mx-auto max-w-8xl my-6">
+        {% set images = [
+            ['1.jpg', 'The Woods'],
+            ['3.jpg', 'Wooden trends'],
+            ['5.jpg', 'The beautiful'],
+            ['7.jpg', 'The Legend'],
+            ['8.jpg', 'Nature and sunrise'],
+            ['15.jpg', 'The Wood Art']
+        ] %}
+    
+        <!-- Slides -->
+        {% for image in images %}
+            <div class="mySlides {% if not loop.first %}hidden{% endif %}">
+                <div class="numbertext absolute top-0 left-0 text-white bg-black/50 px-3 py-1">
+                    {{ loop.index }} / {{ images | length }}
+                </div>
+                <img src="{{ url_for('static', filename='images/Wooden/' ~ image[0]) }}"
+                     class="w-[80%] h-[650px] mx-auto object-cover"
+                     alt="{{ image[1] }}">
+            </div>
+        {% endfor %}
+    
+        <!-- Navigation arrows -->
+        <a class="prev absolute top-1/2 left-0 transform -translate-y-1/2 text-white bg-black/50 px-4 py-2 cursor-pointer"
+           onclick="plusSlides(-1)">❮</a>
+        <a class="next absolute top-1/2 right-0 transform -translate-y-1/2 text-white bg-black/50 px-4 py-2 cursor-pointer"
+           onclick="plusSlides(1)">❯</a>
+    
+        <!-- Caption -->
+        <div class="caption-container text-center bg-black/50 text-white py-2">
+            <p id="caption"></p>
+        </div>
+    
+        <!-- Thumbnail Row -->
+        <div class="row flex mt-4">
+            {% for image in images %}
+                <div class="column w-1/6 p-1">
+                    <img class="demo cursor opacity-60 hover:opacity-100 w-full h-24 object-cover"
+                         src="{{ url_for('static', filename='images/Wooden/' ~ image[0]) }}"
+                         onclick="currentSlide({{ loop.index }})"
+                         alt="{{ image[1] }}">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <h1 class="text-center text-6xl font-bold my-4">Wooden house Gallery</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 p-4">
+        <div class="space-y-2">
+            <img src="{{ url_for('static', filename='images/Wooden/1.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/Wooden/5.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/Wooden/6.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/Wooden/7.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/Wooden/10.jpg') }}" class="w-full">
+
+        </div>
+        <div class="space-y-2">
+            <img src="{{ url_for('static', filename='images/Wooden/13.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/Wooden/3.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/Wooden/17.jpg') }}" class="w-full">     
+            <img src="{{ url_for('static', filename='images/Wooden/9.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/Wooden/11.jpg') }}" class="w-full">
+            
+        </div>
+        <div class="space-y-2">         
+            <img src="{{ url_for('static', filename='images/Wooden/8.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/Wooden/14.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/Wooden/15.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/Wooden/16.jpg') }}" class="w-full">
+            <img src="{{ url_for('static', filename='images/Wooden/12.jpg') }}" class="w-full">
+
+        </div>
+    </div>
+    {% include 'contact.html' %}
+    {% include 'progress-indicator.html' %}
+</main>
+        <!-- Footer -->
+        {% include 'footer.html' %}
